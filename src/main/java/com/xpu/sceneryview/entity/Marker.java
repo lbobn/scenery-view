@@ -16,5 +16,7 @@ public class Marker {
     private double longitude;
     private String title;
     private String iconPath;
+    private String width;
+    private String height;
     private Map<String, Object> customCallout;
 }

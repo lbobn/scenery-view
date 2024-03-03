@@ -18,4 +18,6 @@ public class MarkerOriginal {
     private String content;
     private String src_path;
     private String display;
+    private String width;
+    private String height;
 }

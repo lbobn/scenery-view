@@ -30,6 +30,8 @@ public class MapServiceImpl implements MapService {
             temp.setLongitude(marker.getLongitude());
             temp.setTitle(marker.getTitle());
             temp.setIconPath(marker.getIcon_path());
+            temp.setHeight(marker.getHeight());
+            temp.setWidth(marker.getWidth());
             Map<String,Object> map = new HashMap<>();
             map.put("content",marker.getContent());
             map.put("srcPath",marker.getSrc_path());
