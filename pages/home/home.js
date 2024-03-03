@@ -1,11 +1,12 @@
 // pages/home/home.js
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    imgURLs: ['http://127.0.0.1:8080/image/swiper1.png', 'http://127.0.0.1:8080/image/swiper2.png'],
+    imgURLs: [app.globalData.serverApi + '/image/swiper1.png', app.globalData.serverApi+'/image/swiper2.png'],
     indicatorDots: true,
     vertical: false, //滑动方向是否为纵向
     autoplay: true,  //是否自动切换

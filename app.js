@@ -14,6 +14,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    serverApi: "http://192.168.204.170:8080"
   }
 })

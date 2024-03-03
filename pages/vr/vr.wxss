@@ -1,1 +1,16 @@
 /* pages/vr/vr.wxss */
+.btns {
+    position: fixed;
+    bottom: 80rpx;
+    right: 30rpx;
+    z-index: 99998;
+}
+
+.btns .btn {
+    width: 80rpx;
+    height: 80rpx;
+    text-align: center;
+    line-height: 80rpx;
+    margin-bottom: 20rpx;
+    border-radius: 100%;
+}

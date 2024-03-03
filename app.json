@@ -1,10 +1,11 @@
 {
   "pages": [
     "pages/home/home",
+
+    "pages/vr/vr",
     "pages/login/login",
     "pages/map/map",
     "pages/test/test",
-    "pages/vr/vr",
     "pages/logs/logs",
     "pages/me/me"
   ],
@@ -18,8 +19,7 @@
     "color": "#999",
     "backgroundColor": "#fafafa",
     "borderStyle": "white",
-    "list": [
-      {
+    "list": [{
         "text": "首页",
         "pagePath": "pages/home/home",
         "iconPath": "img/home.png",

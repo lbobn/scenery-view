@@ -1,4 +1,7 @@
 // pages/map/map.js
+var app =  getApp();
+
+  
 Page({
 
   /**
@@ -33,7 +36,7 @@ Page({
     TODO
     */
 
-    console.log(marker.detail)
+    console.log(marker.detail.markerId)
     wx.showModal({
       title: '提示',
       content: '即将跳转至全景图',
@@ -41,7 +44,9 @@ Page({
         if (res.confirm) {
           console.log('用户点击确定')
           wx.navigateTo({
-            url: '../vr/vr',
+            // url: "../vr/vr?panoramaUrl=image/img_0.png&panoramaCode=898989",
+            //将景点标记的id传到VR页面
+            url: "../vr/vr?markerId=" + marker.detail.markerId,
             /* events: {
               // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
               acceptDataFromOpenedPage: function (data) {
@@ -51,10 +56,10 @@ Page({
                 console.log(data)
               }
             }, */
-            success: function (res) {
+            /* success: function (res) {
               // 通过eventChannel向被打开页面传送数据
               res.eventChannel.emit('acceptDataFromOpenerPage', { data: marker.detail })
-            }
+            } */
           })
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -69,7 +74,7 @@ Page({
   onLoad(options) {
     var that = this
     wx.request({
-      url: 'http://127.0.0.1:8080/markers',
+      url: app.globalData.serverApi+ '/markers',
       method: 'GET',
       success(res) {
         // console.log("成功", res.data.data)
