@@ -1,6 +1,6 @@
 <!-- 用户信息：头像，呢称 /登录 -->
 <view class="xx">
-    <block wx:if="{{ hasUserInfo}}">
+    <!-- <block wx:if="{{ hasUserInfo}}">
         <view>
             <image src="{{userInfo.avatarUrl}}" class="tx"></image>
         </view>
@@ -11,7 +11,23 @@
             <image src="/img/默认头像.png" class="tx"></image>
         </view>
         <view class="mz">昵称</view>
+    </block> -->
+    <block wx:if="{{hasUserInfo && canIUseOpenData}}">
+        <view class="userAvatar">
+            
+            <!-- <image src="/img/默认头像.png" class="tx" type="userAvatarUrl"></image> -->
+            <open-data   type="userAvatarUrl"></open-data>
+        </view>
+        <open-data class="usernickname" type="userNickName"></open-data>
+        
     </block>
+    <block wx:else>
+        <view>
+            <image src="/img/默认头像.png" class="tx"></image>
+        </view>
+        <view class="mz">昵称</view>
+    </block>
+
 
 </view>
 <!-- 分割线 -->

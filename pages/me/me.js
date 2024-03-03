@@ -7,7 +7,9 @@ Page({
     name: "",
     userInfo: {},
     hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
+    canIUseOpenData: false,
     mySet: [
       /* {
         'name': "我的预约",
@@ -36,7 +38,7 @@ Page({
 * 用户信息获取权限
 */
   getUserProfile: function () {
-    wx.login({
+    /* wx.login({
       timeout:10000,
       success: (result) => {
         console.log("登录结果"+result.code)
@@ -44,7 +46,7 @@ Page({
       },
       fail: () => {},
       complete: () => {}
-    });
+    }); */
       
     if (this.data.hasUserInfo == false) {
       wx.getUserProfile({
@@ -58,6 +60,7 @@ Page({
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true,
+            canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'), // 如需尝试获取用户信息可改为false
           })
           this.onShow();
         }

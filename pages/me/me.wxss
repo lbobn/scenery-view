@@ -8,6 +8,12 @@ page{
    margin-left: 20rpx;
    color: #FFFFFF;
  }
+ .usernickname{
+  font-size: 50rpx;
+  line-height: 200rpx;
+  margin-left: 20rpx;
+  color: #FFFFFF;
+ }
  .hr {
    height: 16rpx;
    background-color: rgb(202, 202, 202);
@@ -26,12 +32,18 @@ page{
    flex-direction: row;
    background-color: #32667e;
    line-height: 400rpx;
+   height: 40%;
  }
  .tx {
    width: 150rpx;
    height: 150rpx;
    border-radius: 50%;
    margin-left: 50rpx;
+ }
+ .userAvatar{
+  margin-left: 50rpx;
+  height: 150rpx;
+  width: 150rpx;
  }
  .underline {
    text-decoration: underline;
