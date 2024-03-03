@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/login/login",
+    "pages/map/map",
+    "pages/test/test",
+    "pages/vr/vr",
+    "pages/logs/logs",
+    "pages/me/me"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#0D87B6"
+  },
+  "tabBar": {
+    "selectedColor": "#1296db",
+    "color": "#999",
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/home",
+        "iconPath": "img/home.png",
+        "selectedIconPath": "img/home-active.png"
+      },
+      {
+        "text": "地图",
+        "pagePath": "pages/map/map",
+        "iconPath": "img/map.png",
+        "selectedIconPath": "img/map-active.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/me/me",
+        "iconPath": "img/me.png",
+        "selectedIconPath": "img/me-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "plugins": {
+    "wxPano": {
+      "version": "2.1.4",
+      "provider": "wx386c038238531f87"
+    }
+  }
+}

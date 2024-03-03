@@ -1,0 +1,30 @@
+<!-- 用户信息：头像，呢称 /登录 -->
+<view class="xx">
+    <block wx:if="{{ hasUserInfo}}">
+        <view>
+            <image src="{{userInfo.avatarUrl}}" class="tx"></image>
+        </view>
+        <view class="mz">{{userInfo.nickName}}</view>
+    </block>
+    <block wx:else>
+        <view>
+            <image src="/img/默认头像.png" class="tx"></image>
+        </view>
+        <view class="mz">昵称</view>
+    </block>
+
+</view>
+<!-- 分割线 -->
+<view class="hr"></view>
+<!-- 循环数组 mySet  -->
+<view wx:for="{{mySet}}" bindtap="onMySet" data-type="{{item.name}}"> <!-- 图标和循环myset中的文字  -->
+    <view class="vv_1">
+        <image class="image1" src="{{item.img}}" /> {{item.name}} <view class="icon">></view>
+    </view>
+</view>
+<!-- 分割线 -->
+<view class="hr2">
+</view>
+
+<button wx:if="{{hasUserInfo}}" class="logout" bindtap="logout" type="warn">退出登录</button>
+<button wx:else class="logout" open-type="getUserInfo" bindtap="getUserProfile" type="primary">登录</button>
