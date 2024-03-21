@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VRInfo {
     private Integer id;
-    private String url;
     private String name;
+    private String vrUrl;
+    private String vhUrl;
 }

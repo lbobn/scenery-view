@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>可拖动悬浮窗口</title>
+        <style>
+            .draggable {
+                width: 150px;
+                height: 150px;
+                /*background: #333;*/
+                color: white;
+                border-radius: 8px;
+                position: absolute;
+                top: 50px;
+                left: 50px;
+                cursor: move;
+            }
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="mydiv" class="draggable">
+            <div id="mydivheader">拖动<button onclick="closeVideo()" ontouchstart="closeVideo()"
+                                              style="margin-left: 10px;">关闭</button></div>
+
+            <video id="video1" autoplay loop width="150" height="auto">
+                <source id="video-source" src="introduce/1.mp4" type="video/mp4">
+                </source>
+            </video>
+        </div>
+
+        <script>
+            // 使div可拖动
+            // dragElement(document.getElementById("mydiv"));
+            //
+            // function dragElement(elmnt) {
+            //     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            //     elmnt.addEventListener('touchstart', dragMouseDown);
+            //
+            //     function dragMouseDown(e) {
+            //         e.preventDefault();
+            //         pos3 = e.touches[0].clientX;
+            //         pos4 = e.touches[0].clientY;
+            //         document.addEventListener('touchend', closeDragElement);
+            //         document.addEventListener('touchmove', elementDrag);
+            //     }
+            //
+            //     function elementDrag(e) {
+            //         e.preventDefault();
+            //         pos1 = pos3 - e.touches[0].clientX;
+            //         pos2 = pos4 - e.touches[0].clientY;
+            //         pos3 = e.touches[0].clientX;
+            //         pos4 = e.touches[0].clientY;
+            //         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            //         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            //     }
+            //
+            //     function closeDragElement() {
+            //         document.removeEventListener('touchend', closeDragElement);
+            //         document.removeEventListener('touchmove', elementDrag);
+            //     }
+            // }
+
+
+
+            // 使div可拖动
+            dragElement(document.getElementById("mydiv"));
+
+            function dragElement(elmnt) {
+                var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                elmnt.addEventListener('touchstart', dragMouseDown);
+
+                function dragMouseDown(e) {
+                    e.preventDefault();
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                    document.addEventListener('touchend', closeDragElement);
+                    document.addEventListener('touchmove', elementDrag);
+                }
+
+                function elementDrag(e) {
+                    e.preventDefault();
+                    pos1 = pos3 - e.touches[0].clientX;
+                    pos2 = pos4 - e.touches[0].clientY;
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                }
+
+                function closeDragElement() {
+                    // 移除事件监听
+                    document.removeEventListener('touchend', closeDragElement);
+                    document.removeEventListener('touchmove', elementDrag);
+                    // 添加回弹效果
+                    snapBack(elmnt);
+                }
+            }
+
+            // function snapBack(elmnt) {
+            //     var rect = elmnt.getBoundingClientRect();
+            //     var left = rect.left;
+            //     var top = rect.top;
+            //     var right = rect.right;
+            //     var bottom = rect.bottom;
+            //     var screenWidth = window.innerWidth;
+            //     var screenHeight = window.innerHeight;
+            //
+            //     // 检查是否超出屏幕边缘
+            //     if (left < 0) { elmnt.style.left = "0px"; }
+            //     if (top < 0) { elmnt.style.top = "0px"; }
+            //     if (right > screenWidth) { elmnt.style.left = (screenWidth - rect.width) + "px"; }
+            //     if (bottom > screenHeight) { elmnt.style.top = (screenHeight - rect.height) + "px"; }
+            // }
+
+            function snapBack(elmnt) {
+                var rect = elmnt.getBoundingClientRect();
+                var left = rect.left;
+                var top = rect.top;
+                var screenWidth = window.innerWidth;
+                var screenHeight = window.innerHeight;
+
+                // 检查是否超出屏幕右边缘
+                if (left + rect.width > screenWidth) {
+                    elmnt.style.left = (screenWidth - rect.width) + "px";
+                }
+
+                // 检查是否超出屏幕下边缘
+                if (top + rect.height > screenHeight) {
+                    elmnt.style.top = (screenHeight - rect.height) + "px";
+                }
+
+                // 检查是否超出屏幕左边缘
+                if (left < 0) {
+                    elmnt.style.left = "0px";
+                }
+
+                // 检查是否超出屏幕上边缘
+                if (top < 0) {
+                    elmnt.style.top = "0px";
+                }
+            }
+
+
+        </script>
+
+    </body>
+
+</html>

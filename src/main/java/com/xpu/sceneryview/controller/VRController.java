@@ -18,7 +18,14 @@ public class VRController {
     @Autowired
     VRServiceImpl vrService;
 
-    @GetMapping("/vrpano/{id}")
+//    @GetMapping("/vrpano/{id}")
+//    public Result getVRInfo(@PathVariable Integer id){
+//        log.info("id:"+id);
+//        VRInfo vrInfo = vrService.getVRInfo(id);
+//        return Result.success(vrInfo);
+//    }
+
+    @GetMapping("/vr/{id}")
     public Result getVRInfo(@PathVariable Integer id){
         log.info("id:"+id);
         VRInfo vrInfo = vrService.getVRInfo(id);
