@@ -7,6 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <script src="./three.min.js"></script>
         <script src="./photo-sphere-viewer.min.js"></script>
+
+<!--        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
         <title>全景图</title>
         <style>
             /*#mydiv {*/
@@ -38,8 +40,8 @@
                 color: white;
                 border-radius: 8px;
                 position: absolute;
-                top: 50px;
-                left: 50px;
+                right: 0;
+                bottom: 0;
                 cursor: move;
             }
 
@@ -58,26 +60,25 @@
     </head>
 
     <body>
-<!--        <div id="virtual-human">-->
-<!--            <div id="mydiv">-->
-<!--                <div id="mydivheader">拖动<button  onclick="closeVideo()"-->
-<!--                                                  style="margin-left: 10px;">关闭</button></div>-->
 
-<!--                <video id="video1"  autoplay loop width="200" height="auto">-->
-<!--                    <source id="video-source"  type="video/mp4">-->
-<!--                    </source>-->
-<!--                </video>-->
-<!--            </div>-->
-<!--        </div>-->
 
         <div id="mydiv" class="draggable" style="z-index: 99999">
-            <div id="mydivheader">拖动<button onclick="closeVideo()" ontouchstart="closeVideo()"
-                                              style="margin-left: 10px;">关闭</button></div>
+            <div id="mydivheader">拖动
+                <button onclick="playVideo()" ontouchstart="playVideo()"
+                        style="margin-left: 10px;">开启</button>
+                <button onclick="closeVideo()" ontouchstart="closeVideo()"
+                                              style="margin-left: 10px;">关闭</button>
 
-            <video id="video1" autoplay loop width="150" height="auto">
+<!--                <button onclick="openVoice()" ontouchstart="openVoice()"-->
+<!--                        style="margin-left: 10px;">声音</button>-->
+            </div>
+
+            <video id="video1"  loop width="150" height="auto">
                 <source id="video-source" src="introduce/1.mp4" type="video/mp4">
                 </source>
             </video>
+<!--            <iframe src="introduce/1.mp4?autoplay=1" allow="autoplay" width="150" height="auto" frameborder="0"></iframe>-->
+
         </div>
         <div id="container"></div>
 
@@ -101,7 +102,7 @@
         document.getElementById("video-source").src = videoUrl
 
 
-
+        // 全景图
         var PSV = new PhotoSphereViewer({
             // Path to the panorama
             panorama: vrUrl, //这里放全景图地址
@@ -110,14 +111,9 @@
             container: 'container'
         });
 
-        // var PSV = new PhotoSphereViewer({
-        //     // Path to the panorama
-        //     panorama: 'http://hadoop102:9870/webhdfs/v1/vr/%E4%B8%9C%E7%8E%AF.jpg?op=OPEN', //这里放全景图地址
-
-        //     // Container
-        //     container: 'container'
-        // });
-        document.getElementById("video1").play();
+        function playVideo(){
+            document.getElementById("video1").play();
+        }
 
         /*
             关闭视频窗口
@@ -130,70 +126,6 @@
         /*
             悬浮窗设置
         */
-        // 使元素 mydiv 可拖动:
-        // dragElement(document.getElementById("mydiv"));
-        //
-        // function dragElement(elmnt) {
-        //     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        //     var threshold = 150; // 设置一个阈值，当悬浮窗离屏幕边缘小于这个值时，将其吸附到边缘
-        //
-        //     if (document.getElementById(elmnt.id + "header")) {
-        //         document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-        //         // document.getElementById(elmnt.id + "header").ontouchstart = dragMouseDown;
-        //     } else {
-        //         elmnt.onmousedown = dragMouseDown;
-        //         // elmnt.ontouchstart = dragMouseDown;
-        //     }
-        //
-        //     function dragMouseDown(e) {
-        //         e = e || window.event;
-        //         e.preventDefault();
-        //         pos3 = e.touches ? e.touches[0].clientX : e.clientX;
-        //         pos4 = e.touches ? e.touches[0].clientY : e.clientY;
-        //         document.onmouseup = closeDragElement;
-        //         // document.ontouchend = closeDragElement;
-        //         document.onmousemove = elementDrag;
-        //         // document.ontouchmove = elementDrag;
-        //     }
-        //
-        //     function elementDrag(e) {
-        //         e = e || window.event;
-        //         e.preventDefault();
-        //         pos1 = pos3 - (e.touches ? e.touches[0].clientX : e.clientX);
-        //         pos2 = pos4 - (e.touches ? e.touches[0].clientY : e.clientY);
-        //         pos3 = e.touches ? e.touches[0].clientX : e.clientX;
-        //         pos4 = e.touches ? e.touches[0].clientY : e.clientY;
-        //         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        //         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        //     }
-        //
-        //     function closeDragElement() {
-        //         // 停止移动时释放鼠标和触摸:
-        //         document.onmouseup = null;
-        //         // document.ontouchend = null;
-        //         document.onmousemove = null;
-        //         // document.ontouchmove = null;
-        //
-        //         // 检查悬浮窗是否靠近屏幕边缘，并执行回弹和吸附
-        //         var rect = elmnt.getBoundingClientRect();
-        //         if (rect.left < threshold) {
-        //             // 吸附到左边缘
-        //             elmnt.style.left = "0px";
-        //         } else if (rect.right > window.innerWidth - threshold) {
-        //             // 吸附到右边缘
-        //             elmnt.style.left = (window.innerWidth - rect.width) + "px";
-        //         }
-        //
-        //         if (rect.top < threshold) {
-        //             // 吸附到顶部边缘
-        //             elmnt.style.top = "0px";
-        //         } else if (rect.bottom > window.innerHeight - threshold) {
-        //             // 吸附到底部边缘
-        //             elmnt.style.top = (window.innerHeight - rect.height) + "px";
-        //         }
-        //     }
-        // }
-
         // 使div可拖动
         dragElement(document.getElementById("mydiv"));
 
@@ -234,11 +166,11 @@
             var top = rect.top;
             var screenWidth = window.screen.availWidth;
             var screenHeight = window.screen.availHeight;
-            console.log("div左")
-            console.log("屏幕宽度"+ screenWidth)
-            console.log("屏幕高度"+ screenHeight)
-            console.log("div宽度"+ rect.width)
-            console.log("div高度"+ rect.height)
+            // console.log("div左")
+            // console.log("屏幕宽度"+ screenWidth)
+            // console.log("屏幕高度"+ screenHeight)
+            // console.log("div宽度"+ rect.width)
+            // console.log("div高度"+ rect.height)
 
             // 检查是否超出屏幕右边缘
             if (left + rect.width > screenWidth) {

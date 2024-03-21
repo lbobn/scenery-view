@@ -32,10 +32,13 @@
             <div id="mydivheader">拖动<button onclick="closeVideo()" ontouchstart="closeVideo()"
                                               style="margin-left: 10px;">关闭</button></div>
 
-            <video id="video1" autoplay loop width="150" height="auto">
+            <video id="video1" controls autoplay loop width="150" height="auto">
                 <source id="video-source" src="introduce/1.mp4" type="video/mp4">
+
                 </source>
             </video>
+<!--            <canvas id="myCanvas"></canvas>-->
+<!--            <video id="myVideo" src="./introduce/1.mp4" controls autoplay style="width: 100px;height: auto;"></video>-->
         </div>
 
         <script>
@@ -71,8 +74,28 @@
             // }
 
 
+            // const canvas = document.getElementById('myCanvas');
+            // const video = document.getElementById('myVideo');
+            //
+            // function renderVideoToCanvas() {
+            //     const context = canvas.getContext('2d');
+            //     context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            //
+            //     context.font = '30px Arial';
+            //     context.fillStyle = 'red';
+            //     context.fillText('Hello, Canvas!', 50, 50);
+            //
+            //     // 添加其他绘制或动画效果...
+            //
+            //     requestAnimationFrame(renderVideoToCanvas);
+            // }
+            //
+            // // 开始渲染视频
+            // renderVideoToCanvas();
 
-            // 使div可拖动
+
+
+        // 使div可拖动
             dragElement(document.getElementById("mydiv"));
 
             function dragElement(elmnt) {
