@@ -22,19 +22,20 @@ onLoad: function (options) {
     console.log(options.markerId)
     //根据id获取对应全景的信息（其中包含URL等信息）
     wx.request({
-        url: app.globalData.serverApi + '/vrpano/' + options.markerId,
+        url: app.globalData.serverApi + '/vr/' + options.markerId,
         data: {},
         header: {'content-type':'application/json'},
         method: 'GET',
         dataType: 'json',
         responseType: 'text',
         success: (result) => {
-            // result.data.data.url 中即为VR的url
+            // result.data.data.vrUrl 中即为VR的url
+            // result.data.data.vhUrl 为虚拟人url
             that.setData({
-                url: app.globalData.serverApi + '/h5.html' + '?panoramaUrl=' + result.data.data.url
+                url: app.globalData.serverApi + '/h5.html' + '?panoramaUrl=' + result.data.data.vrUrl + '&videoUrl=' + result.data.data.vhUrl
                 // panoramaUrl: result.data.data.url,
             })
-            console.log("成功后："+that.data.panoramaUrl)
+            // console.log("成功后："+that.data.panoramaUrl)
         },
         fail: () => {
             console.log("失败")

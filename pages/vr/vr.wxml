@@ -1,9 +1,9 @@
 <!--pages/panoramDetail/index.wxml-->
-<view class="vr" >
+<view class="vr">
+
   <web-view src="{{url}}">
-    <!-- <cover-view class="btns" wx:if="{{isShow}}">
-      <cover-image class="btn" src="/img/book.png" bindtap="handleTo"></cover-image>
-    </cover-view> -->
-  </web-view>
   
+  </web-view>
+
+
 </view>
