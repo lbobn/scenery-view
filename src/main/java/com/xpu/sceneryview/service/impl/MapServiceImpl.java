@@ -24,6 +24,7 @@ public class MapServiceImpl implements MapService {
         List<Marker> res = new ArrayList<>();
         /*将数据转换为前端需要的格式*/
         for (MarkerOriginal marker : markers) {
+//            System.out.println(marker.toString());
             Marker temp=new Marker();
             temp.setId(marker.getId());
             temp.setLatitude(marker.getLatitude());
