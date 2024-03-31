@@ -1,12 +1,16 @@
 {
   "pages": [
     "pages/home/home",
+
+    "pages/list/list",
+
+    "pages/detail/detail",
     "pages/vr/vr",
     "pages/login/login",
     "pages/map/map",
     "pages/logs/logs",
     "pages/test/test",
-
+    "pages/register/register",
     "pages/me/me",
     "pages/index/index"
   ],

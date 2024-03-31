@@ -1,0 +1,51 @@
+<view class="container">  
+  <view class="header">  
+    <text class="title">{{spot.name}}</text>  
+  </view>  
+    
+  <view class="swiper-container">  
+    <swiper  circular  class="swiper" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}">  
+      <block wx:for="{{spot.images}}" wx:key="index">  
+        <swiper-item>  
+          <image class="slide-image" src="{{item}}" mode="aspectFill" />  
+        </swiper-item>  
+      </block>  
+    </swiper>  
+  </view>  
+    
+  <view class="content">  
+    <text class="intro">{{spot.introduce}}</text>  
+  </view>  
+    
+  <view class="comments-container">  
+    <text class="comments-title">用户评论：</text>  
+    <view class="comments-list">  
+      <block wx:for="{{comments}}" wx:key="index">  
+        <view class="comment-item">  
+          <view class="comment-user">  
+            <text class="username">{{item.username}}</text>  
+            <text class="time">{{item.create_time}}</text>  
+          </view>  
+          <text class="comment-content">{{item.comment}}</text>  
+        </view>  
+      </block>  
+    </view>  
+	
+  </view>  
+	
+</view>
+<!-- 底部组件 -->  
+<view class="bottom-bar">  
+<block wx:if="{{like === true}}">
+	<image class="collect-btn" 		src="../../img/like.png" bindtap="handleCollect" />
+</block>
+<block wx:else>
+	<image class="collect-btn" 		src="../../img/unlike.png" bindtap="handleCollect" />
+</block>
+     
+    <view class="comment-input-container">  
+      <input class="comment-input" placeholder="请输入评论内容" bindinput="handleCommentInput" value="{{commentContent}}" />  
+    </view>  
+    <button class="submit-btn" size="mini" bindtap="submitComment">提交</button>  
+  </view>  
+

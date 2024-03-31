@@ -33,7 +33,7 @@
     </view>
     <view class="card" bindtap="toDetail">
         <image class="option-img" src="/img/detail.png" />
-        <text class="options">景区详情</text>
+        <text class="options">景区清单</text>
     </view>
     <view class="card" bindtap="toVRList">
         <image class="option-img" src="/img/VR.png" />

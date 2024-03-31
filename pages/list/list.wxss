@@ -1,0 +1,47 @@
+/* pages/list/list.wxss */
+.shop-item {
+  display: flex;
+  /* 添加边框 */
+  padding: 20rpx;
+  border: 1rpx solid #efefef;
+  /* 圆角样式 */
+  border-radius: 10rpx;
+  margin: 20rpx;
+  /* 盒子阴影 */
+  box-shadow: 1rpx 1rpx 15rpx #ddd;
+}
+.left-thumb image {
+  width: 250rpx;
+  height: 250rpx;
+  display: block;
+  margin-right: 20rpx;
+}
+.right-info{
+  display: flex;
+  /* 纵向布局 */
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 24rpx;
+}
+
+.shop-title{
+  /* 文本加粗 */
+	font-weight: bold;
+}
+
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10rpx; /* Adjust as needed */
+}
+
+.button {
+  /* Style your buttons here */
+  background-color: #128f0e;
+	color: white;
+	margin-left: 60rpx;
+  /* padding: 20rpx 20rpx; */
+  border-radius: 5rpx;
+  font-size: 20rpx;
+}

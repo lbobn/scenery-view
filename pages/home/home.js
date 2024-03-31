@@ -32,6 +32,9 @@ Page({
 
   toDetail:function(){
     console.log("跳转详情")
+    wx.navigateTo({
+      url: '../list/list',
+    })
   },
   toVRList:function(){
     console.log("跳转VR")
