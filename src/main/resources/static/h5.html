@@ -73,7 +73,7 @@
 <!--                        style="margin-left: 10px;">声音</button>-->
             </div>
 
-            <video id="video1"  loop width="150" height="auto">
+            <video id="video1"   width="150" height="auto">
                 <source id="video-source" src="introduce/1.mp4" type="video/mp4">
                 </source>
             </video>
@@ -87,16 +87,19 @@
     <script>
         // 获取微信小程序传过来的全景图地址
         var vrUrl = './b.jpg'
-        var videoUrl = './虚拟人视频/大学生活动中心.mp4'
+        var videoUrl = './introduce/1.mp4'
         getParamer()
         console.log('全景url:', vrUrl,"---视频url:", videoUrl)
         //获取并处理小程序传递过来的参数
         function getParamer() {
-            var url = window.location.href.split("?")[1]; /*获取url里"?"后面的值*/
+            // console.log(window.location.href)
+            var url = window.location.href.split("=")
+            // var url = window.location.href.split("?")[1]; /*获取url里"?"后面的值*/
             if (url) {
-                params =  url.split("&")
-                vrUrl = params[0].split("=")[1]
-                videoUrl = params[1].split("=")[1]
+                vrUrl = url[1].split("&")[0]
+                videoUrl = url[2] + "=" + "OPEN"
+                // console.log(vrUrl)
+                // console.log((videoUrl))
             }
         }
         document.getElementById("video-source").src = videoUrl

@@ -23,25 +23,23 @@ import java.util.List;
 public class SceneryController {
     @Autowired
     SceneryService sceneryService;
+
     @GetMapping("/detail/{id}")
-    public Result detailInfo(@PathVariable Integer id){
+    public Result detailInfo(@PathVariable Integer id) {
         SceneryVo s = sceneryService.getDetailInfo(id);
-//        s.setImages(new String[]{
-//                "http://localhost:8080/image/swiper1.png",
-//                "http://localhost:8080/image/swiper2.png"
-//        });
+
         return Result.success(s);
     }
 
     @GetMapping("/detail/comments/{id}")
-    public Result sceneryComments(@PathVariable Integer id){
+    public Result sceneryComments(@PathVariable Integer id) {
         List<Comment> comments = sceneryService.getCommentsBySceneryId(id);
         return Result.success(comments);
     }
 
     @GetMapping("/scenery/list")
-    public Result listScenery(){
-        List<SceneryVo> l =  sceneryService.getList();
+    public Result listScenery() {
+        List<SceneryVo> l = sceneryService.getList();
         return Result.success(l);
     }
 }

@@ -13,8 +13,9 @@ public interface MapMapper {
     List<MarkerOriginal> listMarkers();*/
 
     @Select("SELECT id,latitude,longitude,title," +
-            "CONCAT('http://127.0.0.1:8080/',icon_path) icon_path,content," +
-            "CONCAT('http://127.0.0.1:8080/',src_path) src_path," +
+            "icon_path," +
+            "content," +
+            "src_path," +
             "display,width,height " +
             "from marker\n")
     List<MarkerOriginal> listMarkers();

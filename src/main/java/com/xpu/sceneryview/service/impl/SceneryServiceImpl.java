@@ -6,6 +6,7 @@ import com.xpu.sceneryview.entity.vo.SceneryVo;
 import com.xpu.sceneryview.mapper.SceneryMapper;
 import com.xpu.sceneryview.service.SceneryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,8 +21,16 @@ import java.util.List;
  */
 @Service
 public class SceneryServiceImpl implements SceneryService {
+    @Value("${start}")
+    private String start;
+    @Value("${end}")
+    private String end;
+    @Value("${base-img-url}")
+    private String baseImgUrl;
+
     @Autowired
     SceneryMapper sceneryMapper;
+
     @Override
     public List<Comment> getCommentsBySceneryId(Integer id) {
         return sceneryMapper.getCommentsBySceneryId(id);
@@ -33,7 +42,7 @@ public class SceneryServiceImpl implements SceneryService {
         String[] split = detail.getImages().split("#");
         List<String> imgs = new ArrayList<>();
         for (String s : split) {
-            imgs.add("http://localhost:8080/"+s);
+            imgs.add(baseImgUrl + start + s + end);
         }
         SceneryVo sceneryVo = new SceneryVo(
                 detail.getId(),
@@ -58,7 +67,7 @@ public class SceneryServiceImpl implements SceneryService {
             String[] images = scenery.getImages().split("#");
             for (String image : images) {
                 //添加协议头
-                imgs.add("http://localhost:8080/"+image);
+                imgs.add(baseImgUrl + start + image + end);
             }
             result.add(new SceneryVo(
                     scenery.getId(),

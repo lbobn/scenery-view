@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @RestController
 @Slf4j
 public class VRController {
@@ -26,8 +25,8 @@ public class VRController {
 //    }
 
     @GetMapping("/vr/{id}")
-    public Result getVRInfo(@PathVariable Integer id){
-        log.info("id:"+id);
+    public Result getVRInfo(@PathVariable Integer id) {
+        log.info("id:" + id);
         VRInfo vrInfo = vrService.getVRInfo(id);
         return Result.success(vrInfo);
     }

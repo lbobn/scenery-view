@@ -14,3 +14,9 @@ mybatis.type-aliases-package: com.xpu.sceneryview.entity
 mybatis:
   configuration:
     map-underscore-to-camel-case: false
+
+start: /webhdfs/v1/
+
+end: ?op=OPEN
+
+base-img-url: http://server:9870
