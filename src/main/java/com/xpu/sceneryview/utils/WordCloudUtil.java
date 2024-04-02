@@ -25,7 +25,7 @@ public class WordCloudUtil {
         Process prop;
 
 
-        String script = "D:\\Test\\Java\\scenery-view\\src\\main\\java\\com\\xpu\\sceneryview\\scripts\\wordcloudtest.py";
+        String script = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";
 
         try {
 
