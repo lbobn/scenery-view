@@ -19,6 +19,7 @@
     
   <view class="comments-container">  
     <text class="comments-title">用户评论：</text>  
+    <button class="wordcloud" type="primary" size="mini" bindtap="getWordcloud">词云图</button>
     <view class="comments-list">  
       <block wx:for="{{comments}}" wx:key="index">  
         <view class="comment-item">  
@@ -48,4 +49,12 @@
     </view>  
     <button class="submit-btn" size="mini" bindtap="submitComment">提交</button>  
   </view>  
+
+  <modal hidden="{{hidden}}" title="词云图" confirm-text="确定" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm" no-cancel="{{nocancel}}">
+       <view>
+        <image class="image" src="{{wordcloudsrc}}" mode='aspectFill'></image>
+      </view>
+      <!-- <view class="fontSize">长按识别二维码</view> -->
+      <!-- <view class="fontSize">添加小助手微信咨询</view> -->
+</modal>
 

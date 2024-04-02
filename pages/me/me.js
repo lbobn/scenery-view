@@ -1,3 +1,4 @@
+var app = getApp()
 Page({
   /**
   * 页面的初始数据
@@ -10,6 +11,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
     canIUseOpenData: false,
+    isLogin: null,
     mySet: [
       /* {
         'name': "我的预约",
@@ -17,7 +19,7 @@ Page({
       }, */
       {
         'name': "我的收藏",
-        'img': "../images/收藏.png"
+        'img': "../../img/like.png"
       },
       /* {
         'name': "个人设置",
@@ -25,7 +27,7 @@ Page({
       }, */
       {
         'name': "关于我们",
-        'img': "../images/设置.png"
+        'img': "../../img/about.png"
       },
     ]
   },
@@ -33,44 +35,57 @@ Page({
   * 生命周期函数--监听页面加载
   */
   onLoad: function (options) {
+    var login = app.globalData.token != null && app.globalData.token.length != 0
+    console.log(app.globalData)
+    console.log("当前登录"+ login )
+    this.setData({
+      userInfo: app.globalData.userInfo,
+      isLogin: login
+    })
   },
+  login(){
+    wx.navigateTo({
+      url: '../register/register',
+    })
+  },
+  
   /**
 * 用户信息获取权限
 */
-  getUserProfile: function () {
-    /* wx.login({
-      timeout:10000,
-      success: (result) => {
-        console.log("登录结果"+result.code)
+  // getUserProfile: function () {
+  //   /* wx.login({
+  //     timeout:10000,
+  //     success: (result) => {
+  //       console.log("登录结果"+result.code)
         
-      },
-      fail: () => {},
-      complete: () => {}
-    }); */
+  //     },
+  //     fail: () => {},
+  //     complete: () => {}
+  //   }); */
       
-    if (this.data.hasUserInfo == false) {
-      wx.getUserProfile({
-        desc: '信息仅作为个人展示',
-        success: (res) => {
-          console.log('获取成功', res)
-          wx.setStorage({
-            data: res.userInfo,
-            key: 'userInfo',
-          });
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true,
-            canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'), // 如需尝试获取用户信息可改为false
-          })
-          this.onShow();
-        }
-      })
-    } else {
-      wx.showToast({
-        title: '您已登录',
-      })
-    }
-  },
+  //   if (this.data.hasUserInfo == false) {
+  //     wx.getUserProfile({
+  //       desc: '信息仅作为个人展示',
+  //       success: (res) => {
+  //         console.log('获取成功', res)
+  //         wx.setStorage({
+  //           data: res.userInfo,
+  //           key: 'userInfo',
+  //         });
+  //         this.setData({
+  //           userInfo: res.userInfo,
+  //           hasUserInfo: true,
+  //           canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'), // 如需尝试获取用户信息可改为false
+  //         })
+  //         this.onShow();
+  //       }
+  //     })
+  //   } else {
+  //     wx.showToast({
+  //       title: '您已登录',
+  //     })
+  //   }
+  // },
   /**
 * 点击我的预约等板块后进行页面跳转
 */
@@ -94,15 +109,16 @@ Page({
   /**
   * 生命周期函数--监听页面显示
   */
-  onShow: function () {
-    var useInfo = wx.getStorageSync('userInfo')
-    var that = this;
-    that.setData({
-      avatarUrl: useInfo.avatarUrl,
-      name: useInfo.nickName,
-    })
-  },
+  // onShow: function () {
+  //   var useInfo = wx.getStorageSync('userInfo')
+  //   var that = this;
+  //   that.setData({
+  //     avatarUrl: useInfo.avatarUrl,
+  //     name: useInfo.nickName,
+  //   })
+  // },
   logout: function () {
+    var that = this
     wx.removeStorage({
       key: 'userInfo',
       success(res) {
@@ -115,9 +131,26 @@ Page({
           cancelColor: '#576b95',
           success(res) {
             if (res.confirm) {
-              wx.reLaunch({
-                url: '/pages/me/me',
+              // 退出登录
+              wx.clearStorageSync()
+              app.globalData.userInfo = null
+              app.globalData.token = null
+              // console.log(wx.globalData)
+              that.setData({
+                userInfo: null,
+                isLogin: false
               })
+              wx.showToast({
+                title: '注销登录成功',
+              })
+              setTimeout((res)=>{
+                
+                that.onShow()
+              },1000)
+              
+              // wx.reLaunch({
+              //   url: '/pages/me/me',
+              // })
             } else if (res.cancel) {
               console.log('用户点击取消')
             }

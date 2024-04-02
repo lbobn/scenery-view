@@ -5,8 +5,8 @@
 		</view>
  		 <view class="right-info">
 				<text class="shop-title">{{item.name}}</text>
-				<text>电话：{{item.phone}}</text>
-				<text>地址：{{item.address}}</text>
+				<!-- <text>电话：{{item.phone}}</text>
+				<text>地址：{{item.address}}</text> -->
 				<text>简介：{{item.intro}}</text>
 				<view class="buttons">
       <button class="button" size="mini" style="background-color: rgb(66, 206, 171);"

@@ -37,6 +37,6 @@
     </view>
     <view class="card" bindtap="toVRList">
         <image class="option-img" src="/img/VR.png" />
-        <text class="options">VR全景</text>
+        <text class="options">风光图片欣赏</text>
     </view>
 </view>

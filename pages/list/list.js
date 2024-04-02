@@ -7,13 +7,13 @@ Page({
   data: {
     query: {},
     spotList: [
-      {
-        name:'图书馆',
-        images:['http://localhost:8080/image/school.png',''],
-        phone:190219021,
-        address:'西安工程大学',
-        intro:'同学们学习的地方'
-      }
+      // {
+      //   name:'图书馆',
+      //   images:['http://localhost:8080/image/school.png',''],
+      //   phone:190219021,
+      //   address:'西安工程大学',
+      //   intro:'同学们学习的地方'
+      // }
 
     ],
     page: 1, // 当前页数

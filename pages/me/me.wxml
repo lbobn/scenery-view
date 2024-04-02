@@ -12,14 +12,20 @@
         </view>
         <view class="mz">昵称</view>
     </block> -->
-    <block wx:if="{{hasUserInfo && canIUseOpenData}}">
+
+    <!-- <block wx:if="{{hasUserInfo && canIUseOpenData}}"> -->
+    <!-- 原始 -->
+    <!-- <block wx:if="{{isLogin}}">
         <view class="userAvatar">
-            
-            <!-- <image src="/img/默认头像.png" class="tx" type="userAvatarUrl"></image> -->
             <open-data   type="userAvatarUrl"></open-data>
         </view>
         <open-data class="usernickname" type="userNickName"></open-data>
-        
+    </block> -->
+    <block wx:if="{{isLogin}}">
+        <view>
+            <image src="{{userInfo.head_img}}" class="tx"></image>
+        </view>
+        <view class="mz">{{userInfo.nickname}}</view>
     </block>
     <block wx:else>
         <view>
@@ -27,20 +33,26 @@
         </view>
         <view class="mz">昵称</view>
     </block>
-
-
 </view>
 <!-- 分割线 -->
 <view class="hr"></view>
 <!-- 循环数组 mySet  -->
-<view wx:for="{{mySet}}" bindtap="onMySet" data-type="{{item.name}}"> <!-- 图标和循环myset中的文字  -->
+<view wx:for="{{mySet}}" bindtap="onMySet" data-type="{{item.name}}" wx:key="id">
+     <!-- 图标和循环myset中的文字  -->
     <view class="vv_1">
-        <image class="image1" src="{{item.img}}" /> {{item.name}} <view class="icon">></view>
+        <image class="image1" src="{{item.img}}" /> {{item.name}} 
+        <view class="icon">
+        </view>
+        
     </view>
+    <view class="hr2"></view> 
 </view>
 <!-- 分割线 -->
 <view class="hr2">
 </view>
 
-<button wx:if="{{hasUserInfo}}" class="logout" bindtap="logout" type="warn">退出登录</button>
-<button wx:else class="logout" open-type="getUserInfo" bindtap="getUserProfile" type="primary">登录</button>
+<!-- <button wx:if="{{isLogin}}" class="logout" bindtap="logout" type="warn">退出登录</button>
+<button wx:else class="logout" open-type="getUserInfo" bindtap="getUserProfile" type="primary">登录</button> -->
+
+<button wx:if="{{isLogin}}" class="logout" bindtap="logout" type="warn">注销登录</button>
+<button wx:else class="logout" open-type="getUserInfo" bindtap="login" type="primary">登录</button>

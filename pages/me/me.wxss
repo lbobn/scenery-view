@@ -20,6 +20,9 @@ page{
  }
  .vv_1 {
    line-height: 100rpx;
+   
+   margin-left: 50rpx;
+   /* padding-left: 50rpx; */
    background-color: #ffffff;
    display: flex;
    }
@@ -28,9 +31,9 @@ page{
    height: 950rpx;
  }
  .xx {
-     display: flex;
+   display: flex;
    flex-direction: row;
-   background-color: #32667e;
+   background-color: #0D87B6;
    line-height: 400rpx;
    height: 40%;
  }

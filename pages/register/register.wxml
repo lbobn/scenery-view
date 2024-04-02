@@ -16,11 +16,11 @@
   <view class="input-box" hidden="{{current==0}}">
     <view class="wei-input">
       <icon type="waiting" color="#44ADFB" size="16"></icon>
-      <input class="input" auto-focus placeholder="请输入手机号/登录名"/>
+      <input class="input" bindinput="usernameInput" auto-focus placeholder="请输入用户名"/>
     </view>
     <view class="wei-input">
       <icon type="success" color="#44ADFB" size="16"></icon>
-      <input class="input" auto-focus placeholder="请输入登录密码"/>
+      <input class="input" bindinput="passwordInput" password="true" auto-focus placeholder="请输入登录密码"/>
     </view>
     <view class="forget">
       <text>忘记密码?</text>
@@ -28,38 +28,44 @@
   </view>
   <!-- 注册 -->
   <view class="input-box" hidden="{{current==1}}">
-    <!-- 手机号 -->
+    <!-- 用户名 -->
     <view class="wei-input">
       <icon type="waiting" color="#44ADFB" size="16"></icon>
-      <input class="input" auto-focus placeholder="请输入手机号"/>
+      <input bindinput="usernameInput" class="input" auto-focus placeholder="请输入用户名"/>
     </view>
-    <!-- 验证码 -->
+    <!-- 昵称 -->
+    <view class="wei-input">
+      <icon type="waiting" color="#44ADFB" size="16"></icon>
+      <input bindinput="nicknameInput" class="input" auto-focus placeholder="请输入昵称"/>
+    </view>
+    <!-- 验证码
     <view class="wei-input">
       <icon type="waiting" color="#44ADFB" size="16"></icon>
       <input class="input" auto-focus placeholder="请输入6位验证码"/>
       <text class="input-code" bindtap="getCode">{{codeText}}</text>
-    </view>
+    </view> -->
     <!-- 密码 -->
     <view class="wei-input">
       <icon type="success" color="#44ADFB" size="16"></icon>
-      <input class="input" password="true" auto-focus placeholder="请输入密码"/>
+      <input bindinput="passwordInput" class="input" password="true" auto-focus placeholder="请输入密码"/>
     </view>
     <!-- 密码二次验证 -->
     <view class="wei-input">
       <icon type="success" color="#44ADFB" size="16"></icon>
-      <input class="input" password="true" auto-focus placeholder="请确认密码"/>
+      <input bindinput="passwordCheck" class="input" password="true" auto-focus placeholder="请确认密码"/>
     </view>
   </view>
   <view class="sumbit-btn">
     <button class="button" 
     style="background-color: #33ccff;font-size: 30rpx;" 
-    type="primary">立即{{current==1?'登录':'注册'}}</button>
+    bindtap="commit"
+    type="primary" data-type="{{current}}">立即{{current==1?'登录':'注册'}}</button>
   </view>
 </view>
 <!-- 重影 -->
 <view class="shadow shadow-1"></view><view class="shadow shadow-2"></view>
 <!-- 说明 -->
 <view class="bottom-box">
-  demo·开源·点赞·收藏·打赏·Jeffery~
+  --
 </view>
 

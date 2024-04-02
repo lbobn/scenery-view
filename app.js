@@ -14,7 +14,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null,
+    userInfo: wx.getStorageSync('userInfo'),
+    token: wx.getStorageSync('token'),
     serverApi: "http://localhost:8080"
   }
 })

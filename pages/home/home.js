@@ -6,7 +6,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgURLs: [app.globalData.serverApi + '/image/swiper1.png', app.globalData.serverApi+'/image/swiper2.png'],
+    imgURLs: [
+      app.globalData.serverApi + '/image/swiper/swiper1.jpg', 
+      app.globalData.serverApi+'/image/swiper/swiper2.jpg',
+      app.globalData.serverApi+'/image/swiper/swiper3.jpg',
+      app.globalData.serverApi+'/image/swiper/swiper4.jpg',
+      app.globalData.serverApi+'/image/swiper/swiper5.jpg'
+  ],
     indicatorDots: true,
     vertical: false, //滑动方向是否为纵向
     autoplay: true,  //是否自动切换
@@ -38,6 +44,7 @@ Page({
   },
   toVRList:function(){
     console.log("跳转VR")
+    // console.log(app.globalData)
   },
 
   /**

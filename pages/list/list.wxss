@@ -22,6 +22,7 @@
   flex-direction: column;
   justify-content: space-around;
   font-size: 24rpx;
+  font-family:monospace
 }
 
 .shop-title{
