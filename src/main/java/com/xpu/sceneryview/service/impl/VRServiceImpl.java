@@ -11,12 +11,18 @@ import java.util.List;
 
 @Service
 public class VRServiceImpl implements VRService {
+    @Value("${hdfs-img}")
+    private boolean hdfsImg;
+//    @Value("${hdfs-vr-img}")
+//    private boolean usehdfsVrImg;
+    @Value("${springboot-img-url}")
+    private String springImgUrl;
+    @Value("${hdfs-base-url}")
+    private String HDFSBaseUrl;
     @Value("${start}")
     private String start;
     @Value("${end}")
     private String end;
-    @Value("${base-img-url}")
-    private String baseImgUrl;
     @Autowired
     VRMapper vrMapper;
 
@@ -24,7 +30,13 @@ public class VRServiceImpl implements VRService {
     public VRInfo getVRInfo(Integer id) {
         VRInfo vrInfo = vrMapper.getVRInfo(id);
         vrInfo.setVrUrl(vrInfo.getVrUrl());
-        vrInfo.setVhUrl(baseImgUrl + start + vrInfo.getVhUrl() + end);
+        vrInfo.setVhUrl(HDFSBaseUrl + start + vrInfo.getVhUrl() + end);
+        // TODO 暂时使用HDFS,因为H5暂时还不能处理
+//        if (hdfsImg) {
+//            vrInfo.setVhUrl(HDFSBaseUrl + start + vrInfo.getVhUrl() + end);
+//        } else {
+//            vrInfo.setVhUrl(springImgUrl + vrInfo.getVhUrl());
+//        }
         return vrInfo;
     }
 }

@@ -30,12 +30,6 @@ import java.util.Map;
  */
 @RestController
 public class UserController {
-    @Value("${start}")
-    private String start;
-    @Value("${end}")
-    private String end;
-    @Value("${base-img-url}")
-    private String baseImgUrl;
     @Autowired
     UserService userService;
 
@@ -46,7 +40,7 @@ public class UserController {
             User user1 = r.get(0);
             String jsonString = JSONObject.toJSONString(user1);
             String token = JwtUtil.createToken(jsonString);
-            String headImg = baseImgUrl + user1.getHead_img() ;
+            String headImg = user1.getHead_img();
             UserVo userVo = new UserVo(user1.getId(), user.getUsername(), user1.getNickname(), null, headImg, token);
             return Result.success(userVo);
         } else if (r.containsKey(1)) {

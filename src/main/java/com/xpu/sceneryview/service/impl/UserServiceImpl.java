@@ -21,12 +21,16 @@ import java.util.Map;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    @Value("${hdfs-img}")
+    private boolean hdfsImg;
+    @Value("${springboot-img-url}")
+    private String springImgUrl;
+    @Value("${hdfs-base-url}")
+    private String HDFSBaseUrl;
     @Value("${start}")
     private String start;
     @Value("${end}")
     private String end;
-    @Value("${base-img-url}")
-    private String baseImgUrl;
     @Autowired
     UserMapper userMapper;
 
@@ -37,7 +41,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<Integer, User> login(User user) {
         User u = userMapper.getUserByUsername(user.getUsername());
-        u.setHead_img(start + u.getHead_img() + end);
+        if(hdfsImg){
+            u.setHead_img(HDFSBaseUrl + start + u.getHead_img() + end);
+        }else{
+            u.setHead_img(springImgUrl+ u.getHead_img());
+        }
+
         Map<Integer, User> r = new HashMap<>();
 //        System.out.println("前端对象"+user.toString());
 //        System.out.println("数据库"+ u);

@@ -15,8 +15,14 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: false
 
+# 是否使用HDFS的数据
+hdfs-img: false
+hdfs-base-url: http://server:9870
 start: /webhdfs/v1/
-
 end: ?op=OPEN
+# 使用springboot的路径，最后必须带/
+springboot-img-url: http://localhost:8080/
 
-base-img-url: http://server:9870
+# 是否使用HDFS的VR图,目前没有用
+hdfs-vr-img: false
+
