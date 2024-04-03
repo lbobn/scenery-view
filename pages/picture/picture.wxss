@@ -1,0 +1,6 @@
+/* pages/picture/picture.wxss */
+/* 引入模块的wxss */
+@import "../../templates/pictureflowcard/pictureflowcard.wxss";
+/* .card{
+	margin: 10rpx;
+} */

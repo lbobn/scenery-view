@@ -19,10 +19,10 @@
         {{background}}从js文件里面获取background对应的值
      -->
         <!-- 在wxml页面中需要使用的数据，最好定义在data中 -->
-        <block wx:for="{{imgURLs}}" wx:key="*this">
+        <block wx:for="{{swiper}}" wx:key="*this">
             <swiper-item>
                 <!-- swiper-item里面承载的是一张图片，不同的swiper-item承载不同的图片 -->
-                <image src="{{item}}"></image>
+                <image src="{{item.src}}"></image>
             </swiper-item>
         </block>
     </swiper>
@@ -35,7 +35,7 @@
         <image class="option-img" src="/img/detail.png" />
         <text class="options">景区清单</text>
     </view>
-    <view class="card" bindtap="toVRList">
+    <view class="card" bindtap="toPicture">
         <image class="option-img" src="/img/VR.png" />
         <text class="options">风光图片欣赏</text>
     </view>

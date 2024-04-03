@@ -6,13 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgURLs: [
-      app.globalData.serverApi + '/image/swiper/swiper1.jpg', 
-      app.globalData.serverApi+'/image/swiper/swiper2.jpg',
-      app.globalData.serverApi+'/image/swiper/swiper3.jpg',
-      app.globalData.serverApi+'/image/swiper/swiper4.jpg',
-      app.globalData.serverApi+'/image/swiper/swiper5.jpg'
-  ],
+    swiper: [  ],
     indicatorDots: true,
     vertical: false, //滑动方向是否为纵向
     autoplay: true,  //是否自动切换
@@ -42,8 +36,11 @@ Page({
       url: '../list/list',
     })
   },
-  toVRList:function(){
-    console.log("跳转VR")
+  toPicture:function(){
+    console.log("跳转图片浏览")
+    wx.navigateTo({
+      url: '../picture/picture',
+    })
     // console.log(app.globalData)
   },
 
@@ -51,7 +48,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    var that = this
+    wx.request({
+      url: app.globalData.serverApi+ '/swiper',
+      method: 'GET',
+      success(res) {
+        // console.log("成功", res.data.data)
+        that.setData({
+          swiper: res.data.data
+        })
 
+      },
+      fail(res) {
+        console.error("失败", res.data)
+      },
+      complete() {
+        console.log("调用完成")
+      }
+    })
   },
 
   /**

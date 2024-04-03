@@ -1,0 +1,22 @@
+<!--templates/pictureflowcard/pictureflowcard.wxml-->
+<template name="1">
+	<view class="item">
+			<view class="li">
+				<image class="pic" src="{{picture.src}}" mode="widthFix"></image>
+					<view class="title-wrap">
+						<navigator url="url" class="title">{{picture.title}}</navigator>
+					</view>
+					<view class="bottom">
+						<view class="toux-name">
+							<image class="toux" src="../../img/location1.png"></image>
+							<text class="name">{{picture.address}}</text>
+						</view>
+						<!-- <view class="love-num">
+							<text class="love">{{tuijain.love}}</text>
+							<text class="num">{{tuijain.num}}</text>
+						</view> -->
+					</view>
+			</view>
+	</view>
+</template>
+

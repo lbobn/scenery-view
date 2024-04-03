@@ -6,6 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {  
+    hidden:true,
+    nocancel:false,
+    wordcloudsrc:'',
     spot: {  
       // name: '文体馆',  
       // images: [  
@@ -34,45 +37,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    var that = this;
+    // var that = this;
     //获取列表页传来的景点id
-    console.log(options.spotId)
-    // 获取景区详细信息
-    wx.request({
-      url: app.globalData.serverApi+ '/detail/'+options.spotId,
-      method: 'GET',
-      success(res) {
-        // console.log("成功", res.data.data)
-        that.setData({
-          spot: res.data.data
-        })
-
-      },
-      fail(res) {
-        console.error("失败", res.data)
-      },
-      complete() {
-        console.log("调用完成")
-      }
-    })
-
-    // 获取评论数据
-    wx.request({
-      url: app.globalData.serverApi+ '/detail/comments/'+options.spotId,
-      method: 'GET',
-      success(res) {
-        // console.log("成功", res.data.data)
-        that.setData({
-          comments: res.data.data
-        })
-
-      },
-      fail(res) {
-        console.error("失败", res.data)
-      },
-      complete() {
-        console.log("调用完成")
-      }
+    // console.log(options.spotId)
+    this.setData({
+      spotId: options.spotId
     })
   },
 
@@ -86,8 +55,65 @@ Page({
   submitComment: function() {  
     // 提交评论的逻辑  
     // ...  
-    console.log(this.data.commentContent);
-  
+    // console.log(this.data.commentContent);
+    var that = this
+    var token = app.globalData.token
+    // 判断是否登录
+    // console.log(token.length == 0)
+    if(app.globalData.token == null || token.length == 0){
+      //未登录，跳转登录页
+      wx.showModal({
+        title: '提示',
+        content: '您未登录,请登录后再操作',
+        complete: (res) => {
+          if (res.cancel) {
+            
+          }
+      
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../register/register',
+            })
+          }
+        }
+      })
+    }else{
+      //非空判断
+      if(this.data.commentContent != null && this.data.commentContent.length != 0){
+        // 提交评论给后端
+     wx.request({
+       url: app.globalData.serverApi + '/comment/add', //仅为示例，并非真实的接口地址
+       method:'POST',
+       data: {
+         "comment": that.data.commentContent,
+         "scenery_id":that.data.spot.id
+       },
+       header: {
+         'content-type': 'application/json', // 默认值,
+         'token': app.globalData.token
+       },
+       success (res) {
+         if(res.data.code === 1){
+             wx.showToast({
+               title: '成功',
+             })
+             setTimeout((res)=>{
+               that.onShow()
+             },1000)
+         }else{
+           wx.showModal({
+             title: '提示',
+             content: '评论失败,'+res.data.msg,
+             showCancel:false,
+             complete: (res) => {
+ 
+             }
+           })
+         }
+       }
+     })
+     }
+    }
     // 清空输入框内容  
     this.setData({  
       commentContent: ''  
@@ -113,7 +139,44 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    var that = this
+     //获取页面数据
+     wx.request({
+      url: app.globalData.serverApi+ '/detail/'+ that.data.spotId,
+      method: 'GET',
+      success(res) {
+        // console.log("成功", res.data.data)
+        that.setData({
+          spot: res.data.data
+        })
 
+      },
+      fail(res) {
+        console.error("失败", res.data)
+      },
+      complete() {
+        console.log("调用完成")
+      }
+    })
+    //获取评论数据
+    wx.request({
+      url: app.globalData.serverApi+ '/detail/comments/'+that.data.spotId,
+      method: 'GET',
+      success(res) {
+        // console.log("成功", res.data.data)
+        that.setData({
+          comments: res.data.data
+        })
+
+      },
+      fail(res) {
+        console.error("失败", res.data)
+      },
+      complete() {
+        console.log("调用完成")
+      }
+    })
+   
   },
 
   /**
@@ -149,5 +212,69 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+
+  getWordcloud(){
+    var that = this
+    var spotid = this.data.spot.id
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.request({
+      url: app.globalData.serverApi + '/comment/wordcloud/' + spotid, //调用后台接口的全路径
+      // data: {memberId: this.data.member.id},
+      method: "GET",
+      // header: {
+      //   'Content-type': 'application/x-www-form-urlencoded',
+      //   'Cookie': app.globalData.userInfo && app.globalData.userInfo.cookie ? app.globalData.userInfo.cookie : '',
+      // },
+      responseType: 'arraybuffer', //此处是请求文件流，必须带入的属性
+      success: res => {
+        if (res.statusCode === 200) {
+          console.log(res.data)
+          const fs = wx.getFileSystemManager(); //获取全局唯一的文件管理器
+          fs.writeFile({
+            filePath: wx.env.USER_DATA_PATH + "/wordcloud.jpg", // wx.env.USER_DATA_PATH 指定临时文件存入的路径，后面字符串自定义
+            data: res.data,
+            encoding: "binary", //二进制流文件必须是 binary
+            success (res){
+              // wx.openDocument({ // 打开文档
+              //   filePath: wx.env.USER_DATA_PATH + "/wordcloud.jpg",  //拿上面存入的文件路径
+              //   showMenu: true, // 显示右上角菜单
+              //   success: function (res) {
+              //     setTimeout(()=>{wx.hideLoading()},500)
+              //   }
+              // })
+              
+              that.setData({
+                wordcloudsrc:wx.env.USER_DATA_PATH + "/wordcloud.jpg",
+                hidden: false
+              })
+              wx.hideLoading()
+
+            }
+          })
+        }
+      }
+    })
+
+  },
+    /**
+     * 点击取消
+     */
+    cancel: function(){
+      this.setData({
+           hidden: true
+      });
+  },
+
+  /**
+   *  点击确认
+   */
+  confirm: function(){
+      this.setData({
+        hidden: true
+      })
+
+    }
 })

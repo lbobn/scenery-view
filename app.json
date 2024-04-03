@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/home/home",
-
+    "pages/picture/picture",
     "pages/register/register",
     "pages/list/list",
     "pages/detail/detail",
@@ -11,7 +11,8 @@
     "pages/logs/logs",
     "pages/test/test",
     "pages/me/me",
-    "pages/index/index"
+    "pages/index/index",
+    "templates/pictureflowcard/pictureflowcard"
   ],
   "window": {
     "navigationBarTextStyle": "white",
