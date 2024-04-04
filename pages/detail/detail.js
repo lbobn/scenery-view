@@ -37,12 +37,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // var that = this;
     //获取列表页传来的景点id
     // console.log(options.spotId)
     this.setData({
       spotId: options.spotId
     })
+    
+    
   },
 
   handleCommentInput: function(e) {  
@@ -123,9 +124,67 @@ Page({
   handleCollect: function() {  
     // 收藏的逻辑  
     // ...  
-    this.setData({  
-      like: !this.data.like  
-    });
+    // this.setData({  
+    //   like: !this.data.like  
+    // });
+    var that = this
+    var token = app.globalData.token
+    var like = that.data.like
+    // 判断是否登录
+    if(app.globalData.token == null || token.length == 0){
+      //未登录，跳转登录页
+      wx.showModal({
+        title: '提示',
+        content: '您未登录,请登录后再操作',
+        complete: (res) => {
+          if (res.cancel) {
+            
+          }
+      
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../register/register',
+            })
+          }
+        }
+      })
+    }else{
+      
+      if(like == true){
+        //取消收藏 
+                wx.request({
+                  url: app.globalData.serverApi + '/favorDel/' + that.data.spot.id, 
+                  method:'GET',
+                  header: {
+                    'content-type': 'application/json', // 默认值,
+                    'token': app.globalData.token
+                  },
+                  success (res) {
+                    wx.showToast({
+                      title: res.data.data,
+                    })
+                    that.onShow()
+                  }
+              })
+      }else{
+        //添加收藏
+              wx.request({
+                url: app.globalData.serverApi + '/favorAdd/' + that.data.spot.id, 
+                method:'GET',
+                header: {
+                  'content-type': 'application/json', // 默认值,
+                  'token': app.globalData.token
+                },
+                success (res) {
+                  wx.showToast({
+                    title: res.data.data,
+                  })
+                  that.onShow()
+                }
+              })
+      }
+     
+     }
   }  ,
 
   /**
@@ -176,6 +235,28 @@ Page({
         console.log("调用完成")
       }
     })
+
+    var token = app.globalData.token
+    console.log("spotId",that.data.spotId)
+    // 判断是否登录
+    if(app.globalData.token == null || token.length == 0){
+      //不做处理
+    }else{
+      //如果登录了就去后端查询是否收藏
+     wx.request({
+       url: app.globalData.serverApi + '/isfavor/' + that.data.spotId, 
+       method:'GET',
+       header: {
+         'content-type': 'application/json', // 默认值,
+         'token': app.globalData.token
+       },
+       success (res) {
+          that.setData({
+           like: res.data.data
+          })
+       }
+     })
+     }
    
   },
 

@@ -12,7 +12,8 @@
     "pages/test/test",
     "pages/me/me",
     "pages/index/index",
-    "templates/pictureflowcard/pictureflowcard"
+    "templates/pictureflowcard/pictureflowcard",
+    "pages/favor/favor"
   ],
   "window": {
     "navigationBarTextStyle": "white",

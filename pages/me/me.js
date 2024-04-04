@@ -100,9 +100,48 @@ Page({
         url: '/pages/index/want/want',
       })
     } */
+    var that = this
+    var token = app.globalData.token
     if (e.currentTarget.dataset.type == "我的收藏") {
+     
+    // 判断是否登录
+    if(app.globalData.token == null || token.length == 0){
+      //未登录
+      wx.showModal({
+        title: '提示',
+        content: '您未登录,请登录后再操作',
+        complete: (res) => {
+          if (res.cancel) {
+            
+          }
+      
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../register/register',
+            })
+          }
+        }
+      })
+    }else{
       wx.navigateTo({
         url: '/pages/favor/favor',
+      })
+    }
+      
+    }else if(e.currentTarget.dataset.type == "关于我们"){
+      wx.showModal({
+        title: '提示',
+        content: '开发不易，请多多支持',
+        showCancel:false,
+        complete: (res) => {
+          if (res.cancel) {
+            
+          }
+      
+          if (res.confirm) {
+            
+          }
+        }
       })
     }
   },

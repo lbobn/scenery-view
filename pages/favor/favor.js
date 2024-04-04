@@ -24,29 +24,42 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    var that = this
+    var token = app.globalData.token
+    // 判断是否登录
+    if(app.globalData.token == null || token.length == 0){
+      //不做处理
+    }else{
+      //如果登录了就去后端查询是否收藏
+      wx.request({
+        url: app.globalData.serverApi+ '/favor/list',
+        method: 'GET',
+        header: {
+          'content-type': 'application/json', // 默认值,
+          'token': app.globalData.token
+        },
+        success(res) {
+          // console.log("成功", res.data.data)
+          that.setData({
+            spotList: res.data.data
+          })
+  
+        },
+        fail(res) {
+          console.error("失败", res.data)
+        },
+        complete() {
+          console.log("调用完成")
+        }
+      })
+     }
     var that = this;
     this.setData({
       query: options
     });
     // 获取景区列表数据
     // this.getShopList();
-    wx.request({
-      url: app.globalData.serverApi+ '/scenery/list',
-      method: 'GET',
-      success(res) {
-        // console.log("成功", res.data.data)
-        that.setData({
-          spotList: res.data.data
-        })
-
-      },
-      fail(res) {
-        console.error("失败", res.data)
-      },
-      complete() {
-        console.log("调用完成")
-      }
-    })
+    
   },
   turnToVR(event) {
     var id = event.currentTarget.dataset.id
@@ -57,7 +70,6 @@ Page({
   },
   turnToDetail(event){
     var id = event.currentTarget.dataset.id
-    console.log(id)
     // 跳转详情页
     wx.navigateTo({
       url: "../detail/detail?spotId=" + id,

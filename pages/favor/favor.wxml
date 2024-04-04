@@ -1,0 +1,25 @@
+<!--pages/favor/favor.wxml-->
+<!--pages/list/list.wxml-->
+<view class="shop-item" wx:for="{{spotList}}" wx:key="id" data-id="{{item.id}}">
+		<view class="left-thumb">
+			<image src="{{item.images[0]}}"></image>
+		</view>
+ 		 <view class="right-info">
+				<text class="shop-title">{{item.name}}</text>
+				<!-- <text>电话：{{item.phone}}</text>
+				<text>地址：{{item.address}}</text> -->
+				<text>简介：{{item.intro}}</text>
+				<view class="buttons">
+      <button class="button" size="mini" style="background-color: rgb(66, 206, 171);"
+			bindtap="turnToVR" data-id="{{item.id}}"
+			>
+			全景</button>
+      <button class="button" size="mini" style="background-color: cadetblue;"
+			bindtap="turnToDetail" data-id="{{item.id}}">
+			详情</button>
+    </view>
+  		</view>
+</view>
+
+
+
