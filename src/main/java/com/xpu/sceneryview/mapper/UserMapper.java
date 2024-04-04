@@ -1,11 +1,9 @@
 package com.xpu.sceneryview.mapper;
 
 import com.xpu.sceneryview.entity.CommentInfo;
+import com.xpu.sceneryview.entity.Favor;
 import com.xpu.sceneryview.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,4 +34,18 @@ public interface UserMapper {
 
     @Select("select * from comment_info where scenery_id = #{id}")
     List<CommentInfo> getCommentBySceneryId(Integer id);
+
+    @Select("select count(*) from favor where user_id = #{user_id} and scenery_id = #{scenery_id}")
+    Integer isFavor(@Param("user_id") Integer user_id, @Param("scenery_id") Integer sceneryId);
+
+
+
+    @Insert("insert into favor(user_id,scenery_id,create_time) values(#{user_id},#{scenery_id},#{create_time})")
+    void insertFavor(@Param("user_id") Integer user_id,@Param("scenery_id") Integer sceneryId,@Param("create_time") LocalDateTime create_time);
+
+    @Delete("delete from favor where user_id = #{user_id} and scenery_id = #{scenery_id}")
+    void deleteFavor(@Param("user_id") Integer user_id, @Param("scenery_id") Integer sceneryId);
+
+//    @Select("select * from favor where user_id = #{id} and iscancle = 0")
+//    List<Favor> getFavorListByUserId(Integer id);
 }

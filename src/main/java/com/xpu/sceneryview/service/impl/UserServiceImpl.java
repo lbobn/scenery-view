@@ -2,7 +2,11 @@ package com.xpu.sceneryview.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xpu.sceneryview.entity.CommentInfo;
+import com.xpu.sceneryview.entity.Favor;
+import com.xpu.sceneryview.entity.Scenery;
 import com.xpu.sceneryview.entity.User;
+import com.xpu.sceneryview.entity.vo.SceneryVo;
+import com.xpu.sceneryview.mapper.SceneryMapper;
 import com.xpu.sceneryview.mapper.UserMapper;
 import com.xpu.sceneryview.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private String end;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    SceneryMapper sceneryMapper;
 
     /**
      * @param user
@@ -83,5 +90,74 @@ public class UserServiceImpl implements UserService {
             sb.append(commentInfo.getComment());
         }
         return sb.toString();
+    }
+
+    @Override
+    public List<SceneryVo> favorListByUser(Object user) {
+        User u = JSONObject.parseObject(user.toString(), User.class);
+//        List<Favor> l = userMapper.getFavorListByUserId(u.getId());
+//        return l;
+        List<Scenery> sceneries = sceneryMapper.listFavorScenery(u.getId());
+        List<SceneryVo> result = new ArrayList<>();
+        List<String> imgs;
+        if (hdfsImg) {
+            for (Scenery scenery : sceneries) {
+                imgs = new ArrayList<>();
+                String[] images = scenery.getImages().split("#");
+                for (String image : images) {
+                    //添加协议头
+                    imgs.add(HDFSBaseUrl + start + image + end);
+                }
+                result.add(new SceneryVo(
+                        scenery.getId(),
+                        imgs,
+                        scenery.getName(),
+                        scenery.getIntroduce(),
+                        scenery.getIntro(),
+                        scenery.getLike(),
+                        scenery.getAddress()
+                ));
+//            System.out.println(result);
+            }
+        } else {
+            for (Scenery scenery : sceneries) {
+                imgs = new ArrayList<>();
+                String[] images = scenery.getImages().split("#");
+                for (String image : images) {
+                    //添加协议头
+                    imgs.add(springImgUrl + image);
+                }
+                result.add(new SceneryVo(
+                        scenery.getId(),
+                        imgs,
+                        scenery.getName(),
+                        scenery.getIntroduce(),
+                        scenery.getIntro(),
+                        scenery.getLike(),
+                        scenery.getAddress()
+                ));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Integer isFavor(Object user, Integer sceneryId) {
+
+        User u = JSONObject.parseObject(user.toString(), User.class);
+        Integer count = userMapper.isFavor(u.getId(),sceneryId);
+        return count;
+    }
+
+    @Override
+    public void favorAdd(Object user, Integer id) {
+        User u = JSONObject.parseObject(user.toString(), User.class);
+        userMapper.insertFavor(u.getId(),id,LocalDateTime.now());
+    }
+
+    @Override
+    public void favorDel(Object user, Integer id) {
+        User u = JSONObject.parseObject(user.toString(), User.class);
+        userMapper.deleteFavor(u.getId(),id);
     }
 }

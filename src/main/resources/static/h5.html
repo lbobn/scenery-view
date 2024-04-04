@@ -8,7 +8,7 @@
         <script src="./three.min.js"></script>
         <script src="./photo-sphere-viewer.min.js"></script>
 
-<!--        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+        <!--        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
         <title>全景图</title>
         <style>
             /*#mydiv {*/
@@ -28,9 +28,6 @@
             /*    color: #fff;*/
             /*    border-radius: 5px 5px 0 0;*/
             /*}*/
-
-
-
 
 
             html,
@@ -56,14 +53,15 @@
                 bottom: 0;
                 cursor: move;
             }
-            #mydivheader{
+
+            #mydivheader {
                 display: flex; /* 使用Flexbox布局 */
                 justify-content: center; /* 水平居中子元素 */
                 align-items: center; /* 垂直居中子元素（如果bar的高度大于按钮高度的话） */
                 /* 设置条状div的样式，比如宽度、高度、背景色等 */
             }
 
-            button{
+            button {
                 border-radius: 25%;
                 margin: 0 10px;
                 border: aliceblue;
@@ -84,19 +82,21 @@
         <div id="mydiv" class="draggable" style="z-index: 99999">
             <div id="mydivheader">
                 <button onclick="playVideo()" ontouchstart="playVideo()"
-                        style="margin-left: 10px;">开启</button>
+                        style="margin-left: 10px;">开启
+                </button>
                 <button onclick="closeVideo()" ontouchstart="closeVideo()"
-                                              style="margin-left: 10px;">关闭</button>
+                        style="margin-left: 10px;">关闭
+                </button>
 
-<!--                <button onclick="openVoice()" ontouchstart="openVoice()"-->
-<!--                        style="margin-left: 10px;">声音</button>-->
+                <!--                <button onclick="openVoice()" ontouchstart="openVoice()"-->
+                <!--                        style="margin-left: 10px;">声音</button>-->
             </div>
 
             <video id="video1" width="150px" height="auto">
                 <source id="video-source" src="introduce/1.mp4" type="video/mp4">
                 </source>
             </video>
-<!--            <iframe src="introduce/1.mp4?autoplay=1" allow="autoplay" width="150" height="auto" frameborder="0"></iframe>-->
+            <!--            <iframe src="introduce/1.mp4?autoplay=1" allow="autoplay" width="150" height="auto" frameborder="0"></iframe>-->
 
         </div>
         <div id="container"></div>
@@ -107,20 +107,41 @@
         // 获取微信小程序传过来的全景图地址
         var vrUrl = './b.jpg'
         var videoUrl = './introduce/1.mp4'
-        getParamer()
-        console.log('全景url:', vrUrl,"---视频url:", videoUrl)
+        // getParamer()
+        // console.log('全景url:', vrUrl,"---视频url:", videoUrl)
         //获取并处理小程序传递过来的参数
-        function getParamer() {
-            // console.log(window.location.href)
-            var url = window.location.href.split("=")
-            // var url = window.location.href.split("?")[1]; /*获取url里"?"后面的值*/
-            if (url) {
-                vrUrl = url[1].split("&")[0]
-                videoUrl = url[2] + "=" + "OPEN"
-                // console.log(vrUrl)
-                // console.log((videoUrl))
-            }
+        // function getParamer() {
+        //     // console.log(window.location.href)
+        //     var url = window.location.href.split("=")
+        //     // var url = window.location.href.split("?")[1]; /*获取url里"?"后面的值*/
+        //     if (url) {
+        //         vrUrl = url[1].split("&")[0]
+        //         videoUrl = url[2] + "=" + "OPEN"
+        //         // console.log(vrUrl)
+        //         // console.log((videoUrl))
+        //     }
+        // }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=)([^&#]*)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
+
+        // 获取当前页面的完整URL
+        var currentPageUrl = window.location.href;
+
+        // 使用自定义的函数获取vrUrl和vhUrl参数
+        vrUrl = getParameterByName('panoramaUrl', currentPageUrl);
+        videoUrl = getParameterByName('videoUrl', currentPageUrl);
+        console.log("baseurl:", currentPageUrl)
+        console.log('vrUrl:', vrUrl);
+        console.log('vhUrl:', videoUrl);
+
         document.getElementById("video-source").src = videoUrl
 
 
@@ -133,7 +154,7 @@
             container: 'container'
         });
 
-        function playVideo(){
+        function playVideo() {
             document.getElementById("video1").play();
         }
 

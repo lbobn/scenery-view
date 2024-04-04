@@ -33,4 +33,12 @@ public interface SceneryMapper {
 
     @Select("select * from scenery")
     List<Scenery> listScenery();
+
+    @Select("SELECT * from scenery\n" +
+            " where id in (\n" +
+            "\t\tSELECT scenery_id id\n" +
+            "\t\tFROM favor\n" +
+            "\t\twhere user_id = #{id}\n" +
+            ")")
+    List<Scenery> listFavorScenery(Integer id);
 }

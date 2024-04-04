@@ -1,8 +1,10 @@
 package com.xpu.sceneryview.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xpu.sceneryview.entity.Favor;
 import com.xpu.sceneryview.entity.Result;
 import com.xpu.sceneryview.entity.User;
+import com.xpu.sceneryview.entity.vo.SceneryVo;
 import com.xpu.sceneryview.entity.vo.UserVo;
 import com.xpu.sceneryview.mapper.UserMapper;
 import com.xpu.sceneryview.service.UserService;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,10 +78,16 @@ public class UserController {
 
             return Result.error("评论为空");
         } else {
-            Claims claims = JwtUtil.parseToken(token);
-//            System.out.println(claims.get("user"));
+            Claims claims;
+            try {
+                claims = JwtUtil.parseToken(token);
+            } catch (Exception e) {
+                return Result.error("token无效或未登录");
+            }
+
             userService.addComment(claims.get("user"), comment);
             return Result.success();
+
         }
 
     }
@@ -149,6 +158,86 @@ public class UserController {
             System.out.println("失败");
         }
 //        Result.
+
+    }
+
+    @GetMapping("favor/list")
+    public Result favorList(@RequestHeader("token") String token) {
+
+        if (token == null || token.length() == 0) {
+            return Result.error("未登录");
+        } else {
+            Claims claims;
+            try {
+                claims = JwtUtil.parseToken(token);
+
+            } catch (Exception e) {
+                return Result.error("token无效或未登录");
+            }
+            List<SceneryVo> list = userService.favorListByUser(claims.get("user"));
+            return Result.success(list);
+
+        }
+
+    }
+
+    @GetMapping("isfavor/{id}")
+    public Result favorList(@RequestHeader("token") String token,@PathVariable Integer id) {
+
+        if (token == null || token.length() == 0) {
+            return Result.error("未登录");
+        } else {
+            Claims claims;
+            try {
+                claims = JwtUtil.parseToken(token);
+
+            } catch (Exception e) {
+                return Result.error("token无效或未登录");
+            }
+            Integer count = userService.isFavor(claims.get("user"),id);
+            return Result.success(count >= 1);
+
+        }
+
+    }
+
+    @GetMapping("favorAdd/{id}")
+    public Result favorAdd(@RequestHeader("token") String token,@PathVariable Integer id) {
+
+        if (token == null || token.length() == 0) {
+            return Result.error("未登录");
+        } else {
+            Claims claims;
+            try {
+                claims = JwtUtil.parseToken(token);
+
+            } catch (Exception e) {
+                return Result.error("token无效或未登录");
+            }
+            userService.favorAdd(claims.get("user"),id);
+            return Result.success("收藏成功");
+
+        }
+
+    }
+
+    @GetMapping("favorDel/{id}")
+    public Result favorDel(@RequestHeader("token") String token,@PathVariable Integer id) {
+
+        if (token == null || token.length() == 0) {
+            return Result.error("未登录");
+        } else {
+            Claims claims;
+            try {
+                claims = JwtUtil.parseToken(token);
+
+            } catch (Exception e) {
+                return Result.error("token无效或未登录");
+            }
+            userService.favorDel(claims.get("user"),id);
+            return Result.success("取消收藏成功");
+
+        }
 
     }
 }

@@ -1,8 +1,11 @@
 package com.xpu.sceneryview.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xpu.sceneryview.entity.Favor;
 import com.xpu.sceneryview.entity.User;
+import com.xpu.sceneryview.entity.vo.SceneryVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +22,12 @@ public interface UserService {
     void addComment(Object user, JSONObject comment);
 
     String getCommentBySceneryId(Integer id);
+
+    List<SceneryVo> favorListByUser(Object user);
+
+    Integer isFavor(Object user, Integer sceneryId);
+
+    void favorAdd(Object user, Integer id);
+
+    void favorDel(Object user, Integer id);
 }
