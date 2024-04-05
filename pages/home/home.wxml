@@ -29,14 +29,14 @@
 
     <view class="card" bindtap="toMap">
         <image class="option-img" src="/img/maps.png"/>
-        <text class="options">景区地图</text>
+        <text class="options">校园地图</text>
     </view>
     <view class="card" bindtap="toDetail">
         <image class="option-img" src="/img/detail.png" />
-        <text class="options">景区清单</text>
+        <text class="options">校园景点一览</text>
     </view>
     <view class="card" bindtap="toPicture">
         <image class="option-img" src="/img/VR.png" />
-        <text class="options">风光图片欣赏</text>
+        <text class="options">风光图谱</text>
     </view>
 </view>

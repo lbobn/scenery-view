@@ -16,7 +16,7 @@
 }
 
 .content{
-    color: rgb(211, 192, 17);
+    color: rgb(17, 53, 211);
     margin: auto;
     font-size: 12px;
     text-align: center;

@@ -24,7 +24,7 @@
       <block wx:for="{{comments}}" wx:key="index">  
         <view class="comment-item">  
           <view class="comment-user">  
-            <text class="username">{{item.username}}</text>  
+            <text class="username">{{item.nickname}}</text>  
             <text class="time">{{item.create_time}}</text>  
           </view>  
           <text class="comment-content">{{item.comment}}</text>  
