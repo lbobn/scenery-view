@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
  * @create 2024-04-02 11:07
  */
 public class WordCloudUtil {
-    public static int generateWordCloud(String content){
+    public static int generateWordCloud(String content,boolean server,String jar){
         /*
         * /*
 			附加：
@@ -23,14 +23,23 @@ public class WordCloudUtil {
 			*/
 
         Process prop;
+        String script =  "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";;
+
+//        if(jar == null || jar.length() == 0){
+//            script = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";
+//        }else{
+//            // TODO
+//            script = "";
+//        }
 
 
-        String script = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";
 
         try {
 
             Runtime runtime = Runtime.getRuntime();
-            runtime.exec("conda activate big_data_mining");
+            if(!server){
+                runtime.exec("conda activate big_data_mining");
+            }
             prop = runtime.exec("python " + script +" " + content);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(prop.getInputStream()));

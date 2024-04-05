@@ -33,6 +33,10 @@ import java.util.Map;
  */
 @RestController
 public class UserController {
+    @Value("${jar}")
+    private String jar;
+    @Value("${server}")
+    private boolean server;
     @Autowired
     UserService userService;
 
@@ -95,12 +99,19 @@ public class UserController {
     @GetMapping("comment/wordcloud/{id}")
     public void getWordCloud(HttpServletResponse response, @PathVariable Integer id) {
         String comment = userService.getCommentBySceneryId(id);
-        System.out.println(comment);
-        int backCode = WordCloudUtil.generateWordCloud(comment);
+//        System.out.println(comment);
+        int backCode = WordCloudUtil.generateWordCloud(comment,server,jar);
         System.out.println(backCode);
         if (backCode == 0) {
 //            return Result.success(comment);
-            String file = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\static\\wordcloud\\word_cloud.jpg";
+            String file ;
+            if(jar == null || jar.length() == 0){
+                file = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\static\\wordcloud\\word_cloud.jpg";
+            }else{
+                //TODO
+                file = "";
+            }
+
             try {
                 FileInputStream inputStream = new FileInputStream(file);
                 byte[] data = new byte[inputStream.available()];

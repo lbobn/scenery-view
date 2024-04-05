@@ -26,3 +26,8 @@ springboot-img-url: http://localhost:8080/
 # 是否使用HDFS的VR图,目前没有用
 hdfs-vr-img: false
 
+# 是否是服务器，python脚本环境不同
+server: false
+
+# 当前jar包路径
+jar: 

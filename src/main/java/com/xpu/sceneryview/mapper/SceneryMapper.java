@@ -17,7 +17,7 @@ public interface SceneryMapper {
 
     @Select("select\n" +
             "    c.id id,\n" +
-            "    u.username username,\n" +
+            "    u.nickname nickname,\n" +
             "    s.name scenery_name,\n" +
             "    c.comment comment,\n" +
             "    c.`like` `like`,\n" +

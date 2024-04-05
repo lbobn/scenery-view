@@ -9,6 +9,7 @@ import com.xpu.sceneryview.entity.vo.SceneryVo;
 import com.xpu.sceneryview.mapper.SceneryMapper;
 import com.xpu.sceneryview.mapper.UserMapper;
 import com.xpu.sceneryview.service.UserService;
+import com.xpu.sceneryview.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
             r.put(1, null);
             return r;
         } else {
-            if (u.getPassword().equals(user.getPassword())) {
+            if (u.getPassword().equals(MD5Util.createMD5(user.getPassword()))) {
                 r.put(0, u);
             } else {
                 r.put(2, null);
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(User user) throws Exception {
-        userMapper.insertUser(user.getUsername(), user.getPassword(), user.getNickname());
+        userMapper.insertUser(user.getUsername(), MD5Util.createMD5(user.getPassword()), user.getNickname());
     }
 
     @Override

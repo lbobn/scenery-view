@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Comment {
     private Integer id;
-    private String username;
+    private String nickname;
     private String scenery_name;
 
     private String comment;
