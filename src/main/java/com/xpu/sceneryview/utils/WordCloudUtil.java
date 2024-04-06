@@ -1,16 +1,34 @@
 package com.xpu.sceneryview.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @description
  * @Author lubb
  * @create 2024-04-02 11:07
  */
+@Component
 public class WordCloudUtil {
-    public static int generateWordCloud(String content,boolean server,String jar){
+
+    /**
+     *
+     * @param scripts
+     * @param content
+     * @param server
+     * @param stopwordsPath
+     * @param wordcloudPath
+     * @return
+     */
+    public static int generateWordCloud(String scripts,String content,boolean server,String stopwordsPath,String wordcloudPath){
         /*
         * /*
 			附加：
@@ -23,16 +41,6 @@ public class WordCloudUtil {
 			*/
 
         Process prop;
-        String script =  "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";;
-
-//        if(jar == null || jar.length() == 0){
-//            script = "D:\\Test\\Java\\scenery-view\\src\\main\\resources\\scripts\\wordcloudtest.py";
-//        }else{
-//            // TODO
-//            script = "";
-//        }
-
-
 
         try {
 
@@ -40,7 +48,9 @@ public class WordCloudUtil {
             if(!server){
                 runtime.exec("conda activate big_data_mining");
             }
-            prop = runtime.exec("python " + script +" " + content);
+            String cmd = "python " + scripts + " "+ stopwordsPath + " " + wordcloudPath + " "  + "\"" + content + "\"";
+            System.out.println(cmd);
+            prop = runtime.exec(cmd);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(prop.getInputStream()));
             String line = null;
@@ -49,7 +59,7 @@ public class WordCloudUtil {
             }
             in.close();
             return prop.waitFor();
-        } catch (InterruptedException | IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

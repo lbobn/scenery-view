@@ -30,4 +30,12 @@ hdfs-vr-img: false
 server: false
 
 # 当前jar包路径
-jar: 
+jar:
+
+
+# python脚本需要
+scripts: D:\Test\Java\scenery-view\src\main\resources\scripts\wordcloudtest.py
+# 停用词位置
+stop-words: D:\Test\Java\scenery-view\src\main\resources\scripts\cn_stopwords.txt
+# 生成的词云图位置
+wordcloud-path: D:\Test\Java\scenery-view\src\main\resources\static\wordcloud\word_cloud.jpg
