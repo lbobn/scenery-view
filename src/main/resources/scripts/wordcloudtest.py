@@ -9,7 +9,8 @@ import re
 # 假设text是你的中英文混合文本
 stop_words = sys.argv[1]
 word_cloud = sys.argv[2]
-text = sys.argv[3]
+font_path = sys.argv[3]
+text = sys.argv[4]
 # text = "Hello, this is a test for jieba's mixed language segmentation. 你好，世界！"
 
 # 使用正则表达式提取英文部分
@@ -32,7 +33,7 @@ content = [line.strip() for line in lines]
 stopwords.update(content)
 
 join = " ".join(mixed_segments)
-wc = wordcloud.WordCloud(font_path="msyh.ttc",
+wc = wordcloud.WordCloud(font_path=font_path,
                          max_words=50,
                          background_color='white',
                          width=640, height=480,

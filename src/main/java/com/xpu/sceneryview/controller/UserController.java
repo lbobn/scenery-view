@@ -39,6 +39,8 @@ public class UserController {
     private String stopWords;
     @Value("${wordcloud-path}")
     private String wordCloudPath;
+    @Value("${font-path}")
+    private String fontPath;
     @Value("${server}")
     private boolean server;
     @Autowired
@@ -103,7 +105,7 @@ public class UserController {
     @GetMapping("comment/wordcloud/{id}")
     public void getWordCloud(HttpServletResponse response, @PathVariable Integer id) {
         String comment = userService.getCommentBySceneryId(id);
-        int backCode = WordCloudUtil.generateWordCloud(scripts,comment,server,stopWords,wordCloudPath);
+        int backCode = WordCloudUtil.generateWordCloud(scripts,comment,server,stopWords,wordCloudPath,fontPath);
         System.out.println(backCode);
         if (backCode == 0) {
             String file = wordCloudPath;

@@ -28,7 +28,7 @@ public class WordCloudUtil {
      * @param wordcloudPath
      * @return
      */
-    public static int generateWordCloud(String scripts,String content,boolean server,String stopwordsPath,String wordcloudPath){
+    public static int generateWordCloud(String scripts,String content,boolean server,String stopwordsPath,String wordcloudPath,String fontPath){
         /*
         * /*
 			附加：
@@ -48,8 +48,8 @@ public class WordCloudUtil {
             if(!server){
                 runtime.exec("conda activate big_data_mining");
             }
-            String cmd = "python " + scripts + " "+ stopwordsPath + " " + wordcloudPath + " "  + "\"" + content + "\"";
-            System.out.println(cmd);
+            String cmd = "python " + scripts + " "+ stopwordsPath + " " + wordcloudPath + " " + fontPath  + " \"" + content + "\"";
+//            System.out.println(cmd);
             prop = runtime.exec(cmd);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(prop.getInputStream()));

@@ -37,5 +37,7 @@ jar:
 scripts: D:\Test\Java\scenery-view\src\main\resources\scripts\wordcloudtest.py
 # 停用词位置
 stop-words: D:\Test\Java\scenery-view\src\main\resources\scripts\cn_stopwords.txt
+# 字体位置
+font-path: msyh.ttc
 # 生成的词云图位置
 wordcloud-path: D:\Test\Java\scenery-view\src\main\resources\static\wordcloud\word_cloud.jpg

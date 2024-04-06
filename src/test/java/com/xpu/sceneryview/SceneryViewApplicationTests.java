@@ -51,11 +51,7 @@ class SceneryViewApplicationTests {
         }
     }
 
-    @Test
-    void testUtil() {
-        int i = WordCloudUtil.generateWordCloud("北京的故宫真的很大，每一座宫殿都有它自己的故事。不过，人确实很多，建议早点去或者选择淡季游览，这样才能更好地体验故宫的魅力。\n\n",false);
-        System.out.println(i);
-    }
+//    wor
 
     @Test
     void tsetpro() {
