@@ -1,5 +1,7 @@
 package com.xpu.sceneryview.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.xpu.sceneryview.entity.BarrageInfo;
 import com.xpu.sceneryview.entity.VRInfo;
 import com.xpu.sceneryview.mapper.VRMapper;
 import com.xpu.sceneryview.service.VRService;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,9 +33,9 @@ public class VRServiceImpl implements VRService {
     public VRInfo getVRInfo(Integer id) {
         VRInfo vrInfo = vrMapper.getVRInfo(id);
         //设置Vr图片是否使用HDFS路径
-        if(usehdfsVrImg){
+        if (usehdfsVrImg) {
             vrInfo.setVrUrl(HDFSBaseUrl + start + vrInfo.getVrUrl() + end);
-        }else{
+        } else {
             vrInfo.setVrUrl(springImgUrl + vrInfo.getVrUrl());
         }
 
@@ -45,5 +48,18 @@ public class VRServiceImpl implements VRService {
             vrInfo.setVhUrl(springImgUrl + vrInfo.getVhUrl());
         }
         return vrInfo;
+    }
+
+    @Override
+    public List<BarrageInfo> getBarrageById(Integer id) {
+        return vrMapper.getBarrage(id);
+    }
+
+    @Override
+    public void addBarrage(JSONObject barrage) {
+        String barrageInfo = barrage.getString("barrage");
+        Integer sceneryId = barrage.getInteger("scenery_id");
+        Integer userId = barrage.getInteger("user_id");
+        vrMapper.addBarrage(userId, sceneryId, barrageInfo, LocalDateTime.now());
     }
 }

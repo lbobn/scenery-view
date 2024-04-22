@@ -50,9 +50,11 @@
                 border-radius: 8px;
                 position: absolute;
                 right: 0;
+                /*bottom: 32px;*/
                 bottom: 0;
                 cursor: move;
             }
+
 
             #mydivheader {
                 display: flex; /* 使用Flexbox布局 */
@@ -70,8 +72,161 @@
             #video1 {
                 /*width: 150px;*/
                 /*height: auto;*/
-                border-radius: 0 0 5px 5px;
+                border-radius: 8px;
                 object-fit: cover;
+            }
+
+            .barrage {
+                position: absolute;
+                overflow: hidden;
+                height: 110px; /* 根据需要调整高度 */
+                width: 100%;
+            }
+
+            .barrage-line {
+                position: absolute;
+                width: 100%;
+                height: 22px; /* 每行的高度 */
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .barrage-line:nth-child(1) { top: 0; }
+            .barrage-line:nth-child(2) { top: 25%; }
+            .barrage-line:nth-child(3) { top: 50%; }
+            .barrage-line:nth-child(4) { top: 75%; }
+
+            .barrage-message {
+                display: inline-block;
+                /*padding-left: 20px;*/
+                margin-right: 50px; /* 弹幕之间的间距 */
+                /*margin-left: 50px;*/
+                /*background-color: rgba(0, 0, 0, 0.5); !* 背景色，可根据需要调整 *!*/
+                color: white; /* 文字颜色 */
+                border-radius: 8px; /* 圆角 */
+                /*animation: scrollLeft 10s linear infinite; !* 自定义滚动动画 *!*/
+
+            }
+
+            @keyframes scrollLeft {
+                0% { transform: translateX(150%); }
+                100% { transform: translateX(-1200%); }
+            }
+
+
+            /*弹幕开关*/
+            .switch-container {
+                position: absolute;
+                bottom: 7px;
+                /*left: 30px;*/
+                left: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                /*height: 24px;*/
+                height: 20px;
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                /*width: 50px;*/
+                /*height: 24px;*/
+                width: 40px;
+                height: 22px;
+            }
+
+            .switch input {
+                display: none;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "弹";
+                font-size: 12px;
+                height: 16px;
+                width: 16px;
+                left: 4px;
+                bottom: 3px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+                text-align: center;
+            }
+
+            input:checked + .slider {
+                background-color: #c0d5d5;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #c0d5d5;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(17px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+
+            /* 弹幕输入框和发送按钮样式 */
+            .barrage-input-container {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                bottom: 5px;
+                width: 150px;
+                /*right: 20px;*/
+                right: 160px;
+                height: 24px;
+                /*margin-top: 20px;*/
+            }
+
+            .barrage-input {
+                flex: 1;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+                /*    */
+                width: 90px;
+                height: 10px;
+            }
+
+            .send-button {
+                /*padding: 5px 10px;*/
+                background-color: #c0d5d5;
+                color: black;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                /**/
+                white-space: nowrap;
+            }
+
+            .send-button:hover {
+                background-color: #f0f8ff;
             }
         </style>
     </head>
@@ -99,6 +254,25 @@
             <!--            <iframe src="introduce/1.mp4?autoplay=1" allow="autoplay" width="150" height="auto" frameborder="0"></iframe>-->
 
         </div>
+        <!--弹幕-->
+        <div id="barrage" class="barrage" style="z-index: 99998">
+<!--            <div class="barrage-line"></div>-->
+<!--            <div class="barrage-line"></div>-->
+<!--            <div class="barrage-line"></div>-->
+<!--            <div class="barrage-line"></div>-->
+        </div>
+        <div class="switch-container" style="z-index: 99997">
+            <label class="switch">
+                <input type="checkbox" checked id="barrageSwitch">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div id="barrage-input" class="barrage-input-container" style="z-index: 99997">
+            <input type="text" id="barrageInput" class="barrage-input" placeholder="输入弹幕内容...">
+            <button id="sendButton" class="send-button">发送</button>
+        </div>
+
         <div id="container"></div>
 
     </body>
@@ -107,20 +281,10 @@
         // 获取微信小程序传过来的全景图地址
         var vrUrl = './b.jpg'
         var videoUrl = './introduce/1.mp4'
-        // getParamer()
-        // console.log('全景url:', vrUrl,"---视频url:", videoUrl)
-        //获取并处理小程序传递过来的参数
-        // function getParamer() {
-        //     // console.log(window.location.href)
-        //     var url = window.location.href.split("=")
-        //     // var url = window.location.href.split("?")[1]; /*获取url里"?"后面的值*/
-        //     if (url) {
-        //         vrUrl = url[1].split("&")[0]
-        //         videoUrl = url[2] + "=" + "OPEN"
-        //         // console.log(vrUrl)
-        //         // console.log((videoUrl))
-        //     }
-        // }
+        var userId = ''
+        var serverUrl = ''
+        var sceneryId = ''
+        var barrage = []
 
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -132,17 +296,48 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
+
+
         // 获取当前页面的完整URL
         var currentPageUrl = window.location.href;
+        serverUrl = currentPageUrl.split("/h5.html?")[0]
 
         // 使用自定义的函数获取vrUrl和vhUrl参数
         vrUrl = getParameterByName('panoramaUrl', currentPageUrl);
         videoUrl = getParameterByName('videoUrl', currentPageUrl);
+        // user_id = getParameterByName('userId', currentPageUrl)
+        // 使用正则表达式匹配userId及其值
+        var userIdMatch = currentPageUrl.match(/userId=(\d+)/);
+
+        // 如果匹配成功，userIdMatch[1]将包含userId的值
+        if (userIdMatch) {
+            userId = userIdMatch[1];
+        } else {
+            console.log('未找到userId参数');
+        }
+        // 使用正则表达式匹配sceneryId及其值
+        var sceneryIdMatch = currentPageUrl.match(/sceneryId=(\d+)/);
+
+        // 如果匹配成功，userIdMatch[1]将包含userId的值
+        if (sceneryIdMatch) {
+            sceneryId = sceneryIdMatch[1];
+        } else {
+            console.log('未找到sceneryId参数');
+        }
+
         console.log("baseurl:", currentPageUrl)
         console.log('vrUrl:', vrUrl);
         console.log('vhUrl:', videoUrl);
+        console.log('userId:', userId);
+        console.log('sceneryId:',sceneryId)
+        console.log('serverUrl:',serverUrl)
+
+
+
 
         document.getElementById("video-source").src = videoUrl
+
+
 
 
         // 全景图
@@ -153,6 +348,266 @@
             // Container
             container: 'container'
         });
+
+
+
+
+        //弹幕
+
+        document.getElementById('barrageSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                // 弹幕开关已打开，执行相关操作
+                console.log('弹幕已开启');
+                // 例如：显示弹幕
+                showBarrage();
+            } else {
+                // 弹幕开关已关闭，执行相关操作
+                console.log('弹幕已关闭');
+                // 例如：隐藏弹幕
+                hideBarrage();
+            }
+        });
+
+        // 假设的函数，你需要根据自己的应用来实现这些函数
+        function showBarrage() {
+            // 显示弹幕的代码
+            console.log("显示弹幕")
+            document.getElementById("barrage").style.display = "flex";
+            document.getElementById("barrage-input").style.display = "flex";
+        }
+
+        function hideBarrage() {
+            // 隐藏弹幕的代码
+            console.log("隐藏弹幕")
+            document.getElementById("barrage").style.display = "none";
+            document.getElementById("barrage-input").style.display = "none";
+        }
+
+        // 弹幕容器
+        const barrageContainer = document.getElementById('barrage');
+
+        function addBarrageMessageToDOM(barrageItem, lineElement,index,width) {
+            let barrage = barrageItem[index].barrage;
+            const message = document.createElement('span');
+            message.classList.add('barrage-message');
+            message.innerText = barrage;
+
+
+            // 计算弹幕的宽度（这里可能需要一些额外的逻辑来确保宽度正确，比如考虑padding和border）
+            const messageWidth = message.scrollWidth;
+
+            // 假设容器宽度是固定的，这里假设为containerWidth
+            const containerWidth = width; // 容器宽度，根据实际情况设置
+
+            // 计算弹幕从一端滚动到另一端所需的时间（这里假设弹幕以匀速滚动）
+            // const baseDuration = 12;
+            const baseDuration = barrage.length
+            const animationDuration = (messageWidth + containerWidth) / containerWidth * baseDuration;
+            // baseDuration是弹幕滚动的基本时间单位，可以根据需要设置，例如10秒
+
+            // 设置动画时间
+            message.style.animation = `scrollLeft ${animationDuration}s linear infinite`;
+            lineElement.appendChild(message);
+        }
+
+        // 从后端API获取弹幕数据
+
+        function fetchBarrages() {
+            fetch(serverUrl+ "/barrage/" + sceneryId) // 替换为你的API地址
+                .then(response => response.json()) // 假设后端返回的是JSON格式
+                .then(barrages => {
+                    // 清除旧的弹幕
+                    barrageContainer.innerHTML = '';
+                    console.log(barrages.data)
+                    var barragesInfo = barrages.data
+
+                    const messagesPerLine = Math.ceil(barragesInfo.length / 4);
+
+                    // 初始化四行弹幕容器
+                    const lines = [];
+                    for (let i = 0; i < 4; i++) {
+                        const line = document.createElement('div');
+                        line.classList.add('barrage-line');
+                        // line.style.top = `${(i / 3) * 100}%`; // 分布四行，这里假设每行占25%的高度
+                        barrageContainer.appendChild(line);
+                        lines.push(line);
+                    }
+
+                    // 根据每行弹幕数量分配弹幕到行中
+                    let currentIndex = 0;
+                    for (let i = 0; i < 4; i++) {
+                        const line = lines[i];
+                        const maxMessagesForLine = i < barragesInfo.length % 4 ? messagesPerLine + 1 : messagesPerLine; // 如果剩余弹幕不足以均分，则前几行多放
+                        for (let j = 0; j < maxMessagesForLine && currentIndex < barragesInfo.length; j++, currentIndex++) {
+                            // const message = document.createElement('span');
+                            // message.classList.add('barrage-message');
+                            // message.innerText = barragesInfo[currentIndex].barrage;
+                            // line.appendChild(message);
+                            addBarrageMessageToDOM(barragesInfo,line,currentIndex,messagesPerLine * 200)
+                        }
+                    }
+
+
+                    // // 创建并添加新的弹幕行
+                    // barragesInfo.forEach((barrageItem, index) => {
+                    //     // 计算弹幕应该放在哪一行
+                    //     const lineIndex = Math.floor(index / messagesPerLine);
+                    //     let line = barrageContainer.querySelector(`.barrage-line:nth-child(${lineIndex + 1})`);
+                    //     if (!line) {
+                    //         // 如果行不存在，则创建它
+                    //         const newLine = document.createElement('div');
+                    //         newLine.classList.add('barrage-line');
+                    //         newLine.style.top = `${lineIndex * 100 / messagesPerLine}%`; // 根据行数设置top值
+                    //         barrageContainer.appendChild(newLine);
+                    //         line = newLine;
+                    //     }
+                    //
+                    //     // 创建并添加弹幕消息到对应行
+                    //     const message = document.createElement('span');
+                    //     message.classList.add('barrage-message');
+                    //     message.innerText = barrageItem.barrage;
+                    //     line.appendChild(message);
+                    // });
+
+                    // 如果需要循环播放弹幕，可以在这里设置定时器来重新调用fetchBarrages函数
+                    // setInterval(fetchBarrages, refreshInterval); // refreshInterval是刷新间隔，例如5000毫秒
+                })
+                .catch(error => {
+                    console.error('Error fetching barrages:', error);
+                });
+        }
+
+        // 初始化时获取弹幕数据
+        setTimeout(()=>{
+            fetchBarrages();
+        },4000)
+
+
+        // 如果需要实时更新弹幕，可以设置一个定时器来定期从后端获取新数据
+        // setInterval(fetchBarrages, updateInterval); // updateInterval是更新间隔，根据后端数据变化频率来设置
+
+
+
+        // // 弹幕列表
+        // const barrages = [
+        //     "666", "又五杀了", "666", "666", "666",
+        //     "牛蛙牛蛙", "666", "厉害", "弹幕1", "弹幕2",
+        //     "弹幕3", "弹幕4", "弹幕5", "弹幕6", "弹幕7",
+        //     "弹幕8", "弹幕9", "弹幕10", "弹幕11", "弹幕12"
+        // ];
+        //
+        // // 每行显示的弹幕数量
+        // const messagesPerLine = 5;
+        //
+        // // 获取弹幕容器
+        // const barrageContainer = document.getElementById('barrage');
+        //
+        // // 初始化弹幕行和弹幕消息
+        // function initBarrages() {
+        //     // 清空容器内的旧内容
+        //     barrageContainer.innerHTML = '';
+        //
+        //     // 创建弹幕行
+        //     for (let i = 0; i < 4; i++) {
+        //         const line = document.createElement('div');
+        //         line.classList.add('barrage-line');
+        //         barrageContainer.appendChild(line);
+        //
+        //         // 在每行中添加弹幕消息
+        //         for (let j = 0; j < messagesPerLine; j++) {
+        //             const index = i * messagesPerLine + j;
+        //             if (index < barrages.length) {
+        //                 const message = document.createElement('span');
+        //                 message.classList.add('barrage-message');
+        //                 message.innerText = barrages[index];
+        //                 line.appendChild(message);
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // // 初始化弹幕
+        // initBarrages();
+        //
+        // // 如果需要循环，可以添加监听器来检测动画结束事件，但CSS动画没有提供直接的结束事件。
+        // // 因此，我们可以使用setInterval来模拟循环效果。
+        // setInterval(initBarrages, 10000); // 每10秒重新初始化弹幕，时间可以根据需要调整
+
+        //弹幕发送
+        document.addEventListener('DOMContentLoaded', function() {
+            var barrageSwitch = document.getElementById('barrageSwitch');
+            var barrageInput = document.getElementById('barrageInput');
+            var sendButton = document.getElementById('sendButton');
+
+            // // 监听开关状态变化
+            // barrageSwitch.addEventListener('change', function() {
+            //     if (this.checked) {
+            //         // 开启弹幕时启用输入框和发送按钮
+            //         barrageInput.disabled = false;
+            //         sendButton.disabled = false;
+            //     } else {
+            //         // 关闭弹幕时禁用输入框和发送按钮
+            //         barrageInput.value = ''; // 清空输入框内容
+            //         barrageInput.disabled = true;
+            //         sendButton.disabled = true;
+            //     }
+            // });
+
+            // 监听发送按钮点击事件
+            sendButton.addEventListener('click', function() {
+                if(userId != null && userId !== ""){
+                    //发送弹幕
+                    var barrageText = barrageInput.value.trim();
+                    if (barrageText) {
+                        // 执行发送弹幕的逻辑，这里只是简单打印到控制台
+                        console.log('发送弹幕:', barrageText);
+
+
+                        // 准备要发送的数据
+                        var data = {
+                            user_id: userId,
+                            barrage: barrageText,
+                            scenery_id: sceneryId
+                        };
+
+                        // 发送POST请求到后端
+                        fetch(serverUrl+ "/barrage/add", {
+                            method: 'POST', // 或者 'post'
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data) // 将JavaScript对象转换为JSON字符串
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json(); // 解析JSON响应
+                            })
+                            .then(data => {
+                                console.log('弹幕发送成功:', data);
+                                // 清除输入框内容以便输入新的弹幕
+                                barrageInput.value = '';
+                                // ... 你可以在这里添加将弹幕显示到页面上的代码（如果需要的话）...
+                                //重新获取弹幕数据
+                                fetchBarrages()
+                            })
+                            .catch(error => {
+                                console.error('发送弹幕时出错:', error);
+                                alert('发送弹幕失败，请稍后再试！');
+                            });
+                    } else {
+                        alert('请输入弹幕内容！');
+                        console.log('请输入弹幕内容！');
+                    }
+                }else{
+                    alert("您未登录，请登录后回到此页重新发送")
+                    console.log("您未登录，请登录后回到此页重新发送")
+                }
+
+            });
+        });
+
 
         function playVideo() {
             document.getElementById("video1").play();
@@ -222,8 +677,23 @@
             }
 
             // 检查是否超出屏幕下边缘
-            if (top + rect.height > screenHeight) {
-                elmnt.style.top = (screenHeight - rect.height) + "px";
+            // if (top + rect.height > screenHeight - 32) {
+            //     elmnt.style.top = (screenHeight - rect.height - 32) + "px";
+            //     // elmnt.style.bottom = '0px'
+            // }
+
+            if (top + rect.height > screenHeight - 32) {
+                if (top + rect.height > screenHeight){
+                    if(left >= screenWidth - 155){
+                        elmnt.style.top = (screenHeight - rect.height) + "px";
+                    }else{
+                        elmnt.style.top = (screenHeight - rect.height-32) + "px";
+                    }
+                }else if(left <= screenWidth - 155){
+                    elmnt.style.top = (screenHeight - rect.height-32) + "px";
+                }
+
+                // elmnt.style.top = (screenHeight - rect.height - 32) + "px";
                 // elmnt.style.bottom = '0px'
             }
 
