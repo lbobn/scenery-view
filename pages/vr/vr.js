@@ -32,9 +32,12 @@ onLoad: function (options) {
             // result.data.data.vrUrl 中即为VR的url
             // result.data.data.vhUrl 为虚拟人url
             console.log(result.data.data)
+            console.log(app.globalData.userInfo.id)
             console.log(app.globalData.serverApi + '/h5.html' + '?panoramaUrl=' + result.data.data.vrUrl + '&videoUrl=' + result.data.data.vhUrl)
             that.setData({
-                url: app.globalData.serverApi + '/h5.html' + '?panoramaUrl=' + result.data.data.vrUrl + '&videoUrl=' + result.data.data.vhUrl
+                url: app.globalData.serverApi + '/h5.html' + '?panoramaUrl=' + result.data.data.vrUrl + '&videoUrl=' + result.data.data.vhUrl +
+                '&userId=' + app.globalData.userInfo.id +
+                '&sceneryId=' + options.markerId
                 // panoramaUrl: result.data.data.url,
             })
             // console.log("成功后："+that.data.panoramaUrl)
